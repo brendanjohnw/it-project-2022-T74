@@ -4,6 +4,17 @@ A collaborative project as part of the COMP30022: IT Project capstone subject
 # Features
 
 # Dependencies
+To use this application, you would need to have the following packages installed:
+- nodejs
+- expressjs
+- express-handlebars
+- handlebars
+- passportjs
+- bcryptjs
+- mongoose
+- body-parser
+Use `npm install <package>` to install these
+All javascript code is written in CommonJS syntax
 
 # Changelog
 
