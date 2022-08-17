@@ -1,0 +1,46 @@
+{
+  "type": "module",
+  "name": "myapp2",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node ./app.js",
+    "auto": "nodemon ./app.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@popperjs/core": "^2.11.5",
+    "bcrypt": "^5.0.1",
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.20.0",
+    "bootstrap": "^3.4.1",
+    "debug": "^4.3.3",
+    "express": "^4.17.3",
+    "express-flash": "^0.0.2",
+    "express-generator": "^4.16.1",
+    "express-handlebars": "^6.0.3",
+    "express-passport-logout": "^0.1.0",
+    "express-session": "^1.17.2",
+    "express-validator": "^6.14.0",
+    "handlebars": "^4.7.7",
+    "handlebars-dateformat": "^1.1.2",
+    "jquery": "^3.6.0",
+    "jsonwebtoken": "^8.5.1",
+    "mongodb": "^4.5.0",
+    "mongoose": "^6.4.2",
+    "nodemon": "^2.0.15",
+    "passport": "^0.5.2",
+    "passport-local": "^1.0.0",
+    "passport-local-mongoose": "^7.0.0",
+    "path": "^0.12.7",
+    "prettier": "^2.6.1"
+  },
+  "devDependencies": {
+    "eslint": "^8.10.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.25.4"
+  }
+}

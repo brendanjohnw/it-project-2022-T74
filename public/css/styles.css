@@ -1,0 +1,98 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;700&display=swap');
+
+* {
+    font-family: Roboto;
+}
+
+.logo-margin {
+    margin-left: 0.5rem;
+}
+
+.container {
+    margin-top: 2rem;
+
+}
+
+
+
+.welcome-msg {
+    text-align: center;
+    font-family: 'Roboto', 'sans-serif', 300;
+}
+
+.images {
+    margin-bottom: 0.5rem;
+}
+
+.card-body {
+    margin: 1.4rem;
+}
+
+.navbar {
+    filter: drop-shadow(2px 2px 2px #ffffff);
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+
+}
+
+.blur {
+    background
+}
+
+.navbar-custom {
+    background-color: rgba(244, 244, 244, 0.4);
+}
+
+footer {
+    text-align: center;
+}
+
+p {
+    font-size: large;
+}
+
+#welcome_msg {
+    font-weight: 400;
+}
+
+#clock {
+    font-size: 4.5rem;
+}
+
+.bg {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-size: 300% 300%;
+    background-image: linear-gradient(-45deg,
+            rgb(227, 59, 174) 0%,
+            rgb(87, 123, 230) 25%,
+            rgb(169, 73, 224) 51%,
+            rgb(160, 16, 16) 100%);
+    animation: AnimateBG 20s ease infinite;
+}
+
+@keyframes AnimateBG {
+    0% {
+        background-position: 0% 50%
+    }
+
+    50% {
+        background-position: 100% 50%
+    }
+
+    100% {
+        background-position: 0% 50%
+    }
+}
+
+body {
+    padding-top: 90px;
+  }
+  @media (max-width: 979px) {
+    body {
+      padding-top: 90px;
+    }
+  }
