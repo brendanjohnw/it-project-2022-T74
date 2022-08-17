@@ -2,6 +2,10 @@
 A collaborative project as part of the COMP30022: IT Project capstone subject
 
 # Features
+A lightweight, simple personal library store.
+- Add books to your library
+- Store notes for each of your books
+- label your book as part of your wishlist
 
 # Dependencies
 To use this application, you would need to have the following packages installed:
@@ -17,6 +21,7 @@ Use `npm install <package>` to install these
 All javascript code is written in CommonJS syntax
 
 # Changelog
+
 
 # Contributors
 
