@@ -12,11 +12,16 @@ To use this application, you would need to have the following packages installed
 - nodejs
 - expressjs
 - express-handlebars
+- express-flash
+- express-session
+- cookieParser
 - handlebars
 - passportjs
 - bcryptjs
 - mongoose
 - body-parser
+- bootstrap@5.2
+
 Use `npm install <package>` to install these
 All javascript code is written in CommonJS syntax
 
