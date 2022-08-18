@@ -7,5 +7,7 @@ const userSchema = new Schema({
     password: {type: String},
 })
 
-const User = mongoose.model('User', userSchema)
+// Add the book schema here
+
+export const User = mongoose.model('User', userSchema)
 export default User
