@@ -3,6 +3,7 @@ A collaborative project as part of the COMP30022: IT Project capstone subject
 
 # Features
 A lightweight, simple personal library store.
+
 - Add books to your library
 - Store notes for each of your books
 - label your book as part of your wishlist
@@ -39,7 +40,6 @@ A lightweight, simple personal library store.
  * Bootstrap is a pretty popular framework so Googling `Bootstrap` with your goal should get you 90% there.
 
 
-# Dependencies
 To use this application, you would need to have the following packages installed:
 - nodejs
 - expressjs

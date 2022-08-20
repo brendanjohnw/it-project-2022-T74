@@ -6,10 +6,19 @@
             <h1><strong>Book</strong>pedia</h1>
             <h3>It's exactly what you think it is..</h3>
             <p>A book keeping app designed to help you keep track of your reading</p>
+
             <div class="columns is-centered">
-                <button type="submit" class="btn btn-primary btn-lg">Log in</button>
-                <button type="submit" class="btn btn-secondary btn-lg">Sign in</button>
+                <form action="/auth">
+                    <button type="submit" onclick="/auth" class="btn btn-primary btn-lg">Sign up</button>
+                </form>
             </div>
+            <br>
+            <div class="columns is-centered">
+                <form action="/auth/login">
+                    <button type="submit" class="btn btn-light btn-lg">Log in</button>
+                </form>
+            </div>
+
             <br>
             <div class="columns is-centered">
 
