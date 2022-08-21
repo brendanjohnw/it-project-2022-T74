@@ -21,8 +21,8 @@ A lightweight, simple personal library store.
  4. Install prettier by running `npm install --global prettier`, formats the code so it looks neater
  5. Install IDE extensions
      1. If using VSCode
-         1. Install Prettier extension
-         2. Enable format on save and auto save in settings.
+     2. Install Prettier extension
+     3. Enable format on save and auto save in settings.
  6. Open the integrated terminal in your editor and run `npm i`
  7. To view the site, run `npm run auto`. Then visit `localhost:3900` in your browser.
 
@@ -60,6 +60,7 @@ All javascript code is written in CommonJS syntax
 # Commit Rules
 - Never push directly to main
 - Always make changes to your own branch and then create a pull request
+- Before merging onto main, please test the code on your own computer. If everything looks good, merge to main. Notify the coding channel on Slack when you have done so.
 - Do not work on the same part of the code simultaneously on different branches, this will lead to conflicts
 - use `git rebase main` instead of `git pull` as the latter will mess up the commit history.
 
