@@ -57,6 +57,12 @@ To use this application, you would need to have the following packages installed
 Use `npm install <package>` to install these
 All javascript code is written in CommonJS syntax
 
+# Commit Rules
+- Never push directly to main
+- Always make changes to your own branch and then create a pull request
+- Do not work on the same part of the code simultaneously on different branches, this will lead to conflicts
+- use `git rebase main` instead of `git pull` as the latter will mess up the commit history.
+
 # Changelog
 
 
