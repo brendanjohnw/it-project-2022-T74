@@ -5,11 +5,9 @@ A collaborative project as part of the COMP30022: IT Project capstone subject
 A lightweight, simple personal library store.
 
 - Add books to your library
-- Store notes for each of your books
+- You can upload pictures of your books, the title, genre and a brief description
+- Store comments for each of your books
 - label your book as part of your wishlist
-- Add books to your library. You can upload pictures of your books, the title, genre and a brief description
- - Store comments for each of your books
- - label your book as part of your wishlist
 
  In future versions, the ability to interact with other users will be implemented, so stay tuned
 
