@@ -1,7 +1,12 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif:wght@400;700&family=Roboto:wght@100;300;400;700&display=swap');
 
 * {
     font-family: Roboto;
+}
+
+h1 {
+    font-family: 'Noto Serif', serif;
 }
 
 .logo-margin {
@@ -90,9 +95,10 @@ p {
 
 body {
     padding-top: 90px;
-  }
-  @media (max-width: 979px) {
+}
+
+@media (max-width: 979px) {
     body {
-      padding-top: 90px;
+        padding-top: 90px;
     }
-  }
+}
