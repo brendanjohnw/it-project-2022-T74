@@ -1,0 +1,40 @@
+<script src="/public/js/bootstrap.js"></script>
+
+<head>
+    <script>
+        function startTime() {
+            const today = new Date();
+            let h = today.getHours();
+            let m = today.getMinutes();
+            m = checkTime(m);
+            document.getElementById('clock').innerHTML = h + ":" + m;
+            setTimeout(startTime, 1000);
+        }
+
+        function checkTime(i) {
+            if (i < 10) { i = "0" + i };  // add zero in front of numbers < 10
+            return i;
+        }
+    </script>
+</head>
+
+<body onload="startTime()">
+    <div class="container">
+        <div class="p-5 text-center">
+            <h1 id="welcome_msg">
+                <script src="/public/js/greetings.js"></script>
+            </h1>
+            <div id="clock"></div>
+        </div>
+        <div class = "card shadow">
+            <div class = "card-header p-3">
+                Here is your reading list
+            </div>
+            <div class = "card-body">
+
+            </div>
+        </div>
+        
+
+    </div>
+</body>

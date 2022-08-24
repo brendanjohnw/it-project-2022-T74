@@ -5,7 +5,7 @@ import { fileURLToPath } from 'url';
 import path from 'path';
 import { mainRouter } from './routes/mainRouter.js';
 import { authRouter } from './routes/auth.js'
-import User from './models/User.js'
+import { User, Comment, Book} from './models/User.js'
 import mongoose from 'mongoose'
 import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser'
@@ -66,7 +66,7 @@ app.post('/register', async (req, res) => {
                         // res.redirect to the success page
                         logged_in_user = req.body.username
                         console.log(logged_in_user)
-                        res.redirect('/auth/dashboard')
+                        res.redirect('/auth/login')
                     }).catch(error => {
                         // res.redirect to something went wrong
                         res.json({

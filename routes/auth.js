@@ -45,6 +45,8 @@ export const checkAuthentication = (req, res, next) => {
 
 
 };
+
+// Some routes for sign up, login and the dashboard
 authRouter.get('/', getRegister)
 authRouter.get('/login', getLogin);
 authRouter.get('/dashboard', checkAuthentication, getDashboard)
@@ -64,7 +66,7 @@ authRouter.post(
 // Handle logout
 authRouter.get('/logout', (req, res) => {
     req.session.destroy((err) => {
-        res.redirect('/'); 
+        res.redirect('/');
     });
 });
 
@@ -77,5 +79,5 @@ authRouter.post('/logout', (req, res) => {
 // Start putting the stuff other than login below this line
 // ------------------------------------------------------------
 
-
+// Route for adding a book
 authRouter.get('/addbook', getAddbook);
