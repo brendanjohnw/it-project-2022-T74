@@ -9,6 +9,11 @@ const bookSchema = new Schema({
     date_added: { type: String },
     wishlist: { type: Boolean },
     rating: { type: Number },
+    img:
+    {
+        data: Buffer,
+        contentType: String
+    }
 })
 
 export const Book = mongoose.model('Book', bookSchema)
