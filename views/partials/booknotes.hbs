@@ -1,0 +1,96 @@
+<script src="/public/js/bootstrap.js"></script>
+
+
+<head>
+    <script crossorigin="anonymous" src="https://kit.fontawesome.com/2e58876b6d.js"></script>
+
+    <link href="/public/css/styles.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+
+</head>
+
+<head>
+    <script>
+        function startTime() {
+            const today = new Date();
+            let h = today.getHours();
+            let m = today.getMinutes();
+            m = checkTime(m);
+            document.getElementById('clock-small').innerHTML = h + ":" + m;
+            setTimeout(startTime, 1000);
+        }
+
+        function checkTime(i) {
+            if (i < 10) { i = "0" + i };  // add zero in front of numbers < 10
+            return i;
+        }
+    </script>
+</head>
+
+<body onload="startTime()">
+    <section class="vh-100 gradient-custom">
+        <div class="container py-5 h-40">
+            <div class="row justify-content-center align-items-center h-100">
+                <div class="col-12 col-lg-9 col-xl-7">
+                    <div class="card shadow card-registration"  style="border-radius: 15px;">
+
+                        <div class="card-body" style="flex-direction: row">
+
+                            <section class="card-body">
+                                <div class="row">
+                                    <div class="col">
+                                        <img src="/public/img/placeholder.jpeg" class="card-img-top" alt="book cover">
+                                    </div>
+                                    <div class="col">
+                                        <h3>lorem ipsum</h3>
+                                    </div>
+                                </div>
+                            </section>
+
+                            <section class="card-body">
+                                <h1 class="text-center"> THIS IS A THING</h1>
+                            </section>
+
+
+                            <div id="clock-small"></div>
+
+                        </div>
+
+                        <div>
+                            
+
+                        <div class="card shadow" style="border-radius: 15px";>
+                            <section class="card-body">
+
+                                <h2>LOREM IPSUM</h2>
+
+
+                            </section>
+                            
+
+                        </div>
+
+
+
+                        </div>
+
+
+
+
+
+
+
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+    
+   
+</body>
+

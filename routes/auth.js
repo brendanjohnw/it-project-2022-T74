@@ -4,7 +4,7 @@ import express from 'express'
 import session from 'express-session'
 import flash from 'express-flash'
 import passport from '../passport.js';
-import { getLogin, getRegister, getDashboard, getAddbook } from '../controllers/AuthController.js'
+import { getLogin, getRegister, getDashboard, getAddbook, getBook } from '../controllers/AuthController.js'
 
 export const authRouter = express.Router()
 authRouter.use(flash())
@@ -81,3 +81,7 @@ authRouter.post('/logout', (req, res) => {
 
 // Route for adding a book
 authRouter.get('/addbook', getAddbook);
+
+// Route for viewing book
+
+authRouter.get('/book', getBook);
