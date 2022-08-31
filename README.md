@@ -57,13 +57,23 @@ All javascript code is written in CommonJS syntax
 
 # Commit Rules
 - Never push directly to main
-- Always make changes to your own branch and then create a pull request
+- Always make changes to your own branch and then create a pull request, do not merge immediately.
 - Before merging onto main, please test the code on your own computer. If everything looks good, merge to main. Notify the coding channel on Slack when you have done so.
 - Do not work on the same part of the code simultaneously on different branches, this will lead to conflicts
 - use `git rebase main` instead of `git pull` as the latter will mess up the commit history.
+- Write meaningful commit messages
+
+# Coding standards
+
+- All import statements at the top of the file
+- Install prettier and activate format on save.
+- Avoid writing CSS and Javascript inline unless absolutely necessary
+- Comment major sections of code so everyone is on the same page.
 
 # Changelog
 
+- Added validation check message to the sign up screen
+- Added new static web pages for each user dashboard
 
 # Contributors
 
