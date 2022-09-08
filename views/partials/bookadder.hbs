@@ -1,2 +1,83 @@
 <script src="/public/js/bootstrap.js"></script>
 
+
+<head>
+    <script crossorigin="anonymous" src="https://kit.fontawesome.com/2e58876b6d.js"></script>
+
+    <link href="/public/css/styles.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+
+</head>
+
+<body>
+<section class="vh-100 gradient-custom">
+    <div class="container py-5 h-40">
+        <div class="row justify-content-center align-items-center h-100">
+            <div class="col-12 col-lg-9 col-xl-7">
+                    <div class="card shadow card-registration row" style="border-radius: 15px; flex-direction: row;">
+
+
+
+
+                        <div class=" p-5 text-center">
+                            <i class="fa-solid fa-book fa-6x"></i>
+                                <br>
+                                <br>
+                                <h3>Add Your Book!</h3>
+                                <br>
+                        </div>
+
+                        <div>
+                            <div class="p-5 text-center">
+                                <div>
+                                    <h3>add image</h3>
+                                </div>
+                            </div>
+                        </div>    
+
+                        <div>
+                            <div class="p-5 text-center">
+                                
+                                <form action="/login" method="post">
+                                    <div class="form-outline">
+                                        <input type="text" name="title" id="title" class="form-control form-control-sm"
+                                            placeholder='Title' />
+                                    </div>
+                                    <br>
+                                    <div class="form-outline">
+                                        <input type="text" name="author" id="author" class="form-control form-control-sm"
+                                            placeholder='Author' />
+                                    </div>
+                                    <br>
+                                    <div class="form-outline">
+                                        <input type="text" name="genre" id="genre" class="form-control form-control-sm"
+                                            placeholder='Genre' />
+                                    </div>
+                                    <br>
+                                    <div class="form-outline">
+                                        <input type="text" name="desc" id="desc"
+                                            class="form-control form-control-sm" placeholder='Description' />
+                                    </div>
+                                    {{#each flash}}
+                                    <p class="alert">{{this}}</p>
+                                    {{/each}}
+                                    <br>
+                                    <button type="button"class="btn btn-danger btn-md redButton">Cancel</button>
+                                    <button type="submit" class="btn btn-primary btn-md">Add This Book!</button>
+                                </form>
+                            </div>
+                        </div>
+                        </div>
+                
+                
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+
+
+</body>

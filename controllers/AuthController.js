@@ -29,5 +29,11 @@ export const getDashboard = async (req, res) => {
 };
 
 export const getAddbook = (req, res) => {
-    res.render("addbook");
-};
+
+    res.render('addbook')
+}
+
+export const getBook = (req, res) => {
+    res.render('book')
+}
+
