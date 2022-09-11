@@ -80,7 +80,7 @@ authRouter.post("/logout", (req, res) => {
 
 // Route for adding a book
 
-authRouter.get('/addbook', getAddbook);
+authRouter.get('/addbook', checkAuthentication, getAddbook);
 
 // Route for viewing book
 

@@ -39,7 +39,8 @@
                         <div>
                             <div class="p-5 text-center">
                                 
-                                <form action="/login" method="post">
+                                <form action="/post-book" method="post" enctype="multipart/form-data">
+                                    <input type="file" name = "image" id="image" accept="image/jpeg, image/png, image/jpg">
                                     <div class="form-outline">
                                         <input type="text" name="title" id="title" class="form-control form-control-sm"
                                             placeholder='Title' />
