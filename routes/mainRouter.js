@@ -1,6 +1,6 @@
-import express from 'express';
-import { getIndex, getLogin} from "../controllers/mainController.js";
+import express from "express";
+import { getIndex } from "../controllers/mainController.js";
 
 export const mainRouter = express.Router();
 
-mainRouter.get('/', getIndex);
+mainRouter.get("/", getIndex);

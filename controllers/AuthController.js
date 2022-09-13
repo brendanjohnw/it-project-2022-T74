@@ -7,7 +7,7 @@ export const getLogin = (req, res) => {
 };
 
 export const getRegister = (req, res) => {
-    res.render("signup", { message: req.flash("message") });
+    res.render("signup", { flash: req.flash("flash"), title: "Signup" });
 };
 
 export const getDashboard = async (req, res) => {
@@ -29,11 +29,9 @@ export const getDashboard = async (req, res) => {
 };
 
 export const getAddbook = (req, res) => {
-
-    res.render('addbook')
-}
+    res.render("addbook", { flash: req.flash("flash") });
+};
 
 export const getBook = (req, res) => {
-    res.render('book')
-}
-
+    res.render("book");
+};

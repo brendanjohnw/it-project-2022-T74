@@ -13,9 +13,8 @@ const bookSchema = new Schema({
     title: { type: String },
     author: { type: String },
     description: { type: String },
-    price: { type: String },
-    price_currency_code: { type: String },
     date_added: { type: Date, default: Date.now },
+    genre: { type: String },
     in_wishlist: { type: Boolean },
     rating: { type: Number },
     img: {

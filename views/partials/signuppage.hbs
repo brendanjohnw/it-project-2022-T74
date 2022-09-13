@@ -36,11 +36,9 @@
                                 />
                             </div>
                             <br />
-                            {{#if message}}
-                                <div style="text-align: center" class="alert alert-user-exist">
-                                    <strong>{{message}}</strong>
-                                </div>
-                            {{/if}}
+                            {{#each flash}}
+                                <p class="alert">{{this}}</p>
+                            {{/each}}
                             <br />
                             <button type="submit" class="btn btn-primary btn-md">Start Book keeping!</button>
                         </form>

@@ -11,6 +11,7 @@ import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
 import flash from "express-flash";
 import bcrypt from "bcryptjs";
+import { username_login } from "./passport.js";
 
 const app = express();
 app.engine(".hbs", engine({ extname: ".hbs" }));
@@ -49,7 +50,7 @@ app.post("/register", async (req, res) => {
     bcrypt.hash(req.body.password, 10, function (err, hashedPass) {
         User.countDocuments({ username: username }, function (err, count) {
             if (count > 0) {
-                req.flash("message", "User already exists");
+                req.flash("flash", "User already exists");
                 res.redirect("/auth");
             } else if (err) {
                 res.json({
@@ -77,8 +78,61 @@ app.post("/register", async (req, res) => {
         });
     });
 });
-
 // end of user registration
+
+// Code for adding a book
+// multer is used for image upload
+
+import multer from "multer";
+
+export const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, "uploads");
+    },
+    filename: (req, file, cb) => {
+        cb(null, file.fieldname + "-" + Date.now());
+    },
+});
+
+var upload = multer({ storage: storage });
+
+app.post("/post-book", upload.single("image"), async (req, res, next) => {
+    const options = {
+        weekday: "long",
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+    };
+    try {
+        if (req.body.title === "" || req.body.author === "") {
+            req.flash("flash", "Please enter title and author!");
+            res.redirect("/addbook");
+        } else if (req.file.filename !== undefined) {
+            const newBook = new Book({
+                title: req.body.title,
+                author: req.body.author,
+                description: req.body.description,
+                genre: req.body.genre,
+                img: {
+                    data: req.file.filename,
+                    contentType: req.file.mimetype,
+                },
+                date_added: new Date().toLocaleString("en-US", options),
+            });
+            console.log("Hello");
+            const thisUser = await User.findOne({ username: username_login });
+            const data = new Book(newBook);
+            thisUser.book_array.push(data);
+            newBook.save();
+            await thisUser.save();
+            res.redirect("/dashboard");
+        }
+    } catch (err) {
+        req.flash("flash", "Please upload an image of the book!");
+        res.redirect("/addbook");
+    }
+});
+// End of add book
 
 app.listen(process.env.PORT || 3900 || "0.0.0.0", () => {
     console.log("running!");
