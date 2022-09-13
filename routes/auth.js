@@ -1,11 +1,10 @@
 // Auth.js is a file that handles the routing for routes that require authentication
 
-import express from 'express'
-import session from 'express-session'
-import flash from 'express-flash'
-import passport from '../passport.js';
-import { getLogin, getRegister, getDashboard, getAddbook, getBook } from '../controllers/AuthController.js'
-
+import express from "express";
+import session from "express-session";
+import flash from "express-flash";
+import passport from "../passport.js";
+import { getLogin, getRegister, getDashboard, getAddbook, getBook } from "../controllers/AuthController.js";
 
 export const authRouter = express.Router();
 authRouter.use(flash());
@@ -36,11 +35,11 @@ export const checkAuthentication = (req, res, next) => {
     // If user is not authenticated via passport, redirect to login page
     try {
         if (req.session.passport.user !== undefined && count == 1) {
-            res.redirect("/auth/dashboard");
             count += 1;
         }
     } catch {
         res.redirect("/auth/login");
+        return;
     }
     return next();
 };
@@ -80,9 +79,8 @@ authRouter.post("/logout", (req, res) => {
 
 // Route for adding a book
 
-authRouter.get('/addbook', checkAuthentication, getAddbook);
+authRouter.get("/addbook", checkAuthentication, getAddbook);
 
 // Route for viewing book
 
-authRouter.get('/book', getBook);
-
+authRouter.get("/book", getBook);
