@@ -42,14 +42,15 @@
                 📖 Here is your reading list <strong>{{this.username}}</strong>
                 {{/each}}
             </div>
-            <div class="card-body">
-                <div class="row row-cols-1 row-cols-md-3 g-4">
-                    <div class="col">
-                        {{>addbookcard}}
-                    </div>
-                    <!-- Reiterate by user's book with handlebars, code is in the bookcard partial -->
-                    {{>bookcard}}
-                </div>
+            <!-- Display all the cards  -->
+            <div class="cards">       
+                {{>addbookcard}}
+                {{#each UserData}}
+                {{#each book_array}}
+                    {{> bookcard title=this.title author=this.author 
+                    img_data=this.img.data img_type=this.img.contentType}}
+                {{/each}}
+                {{/each}}
             </div>
         </div>
 

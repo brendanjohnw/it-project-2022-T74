@@ -1,6 +1,6 @@
 // Listen for requests
 import express from "express";
-import { engine } from "express-handlebars";
+import { create, engine } from "express-handlebars";
 import { fileURLToPath } from "url";
 import path from "path";
 import { mainRouter } from "./routes/mainRouter.js";
@@ -19,9 +19,19 @@ app.set("view engine", ".hbs");
 app.set("views", "./views");
 app.use(cookieParser());
 
+// Handlebars helpers
+const hbs = create({});
+hbs.handlebars.registerHelper("toString64", function (data) {
+    return data.toString("base64");
+});
+
+hbs.handlebars.registerHelper("createSrc", function (data, type) {
+    return "data:".concat(type, ";base64,", data);
+});
+
 // Serve static content
 // Database stuff
-app.use(bodyParser.urlencoded({ extened: false }));
+app.use(bodyParser.urlencoded({ extended: false }));
 const connectionURL =
     "mongodb+srv://brendanino:SVMd3nZJGKyfPJ4M@atlascluster.sbftbx6.mongodb.net/?retryWrites=true&w=majority";
 mongoose.connect(connectionURL, {
@@ -123,8 +133,22 @@ app.post("/post-book", upload.single("image"), async (req, res, next) => {
             const thisUser = await User.findOne({ username: username_login });
             const data = new Book(newBook);
             thisUser.book_array.push(data);
-            newBook.save();
-            await thisUser.save();
+            newBook
+                .save()
+                .then((res) => {
+                    console.log("New book saved");
+                })
+                .catch((err) => {
+                    console.log("Error has occurred!");
+                });
+            await thisUser
+                .save()
+                .then((res) => {
+                    console.log("User saved");
+                })
+                .catch((err) => {
+                    console.log("Error has occurred!");
+                });
             res.redirect("/dashboard");
         }
     } catch (err) {

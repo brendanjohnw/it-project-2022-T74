@@ -31,6 +31,15 @@ h1 {
     margin: 1.4rem;
 }
 
+.cards {
+    margin: 3rem;
+    max-width: 1000px;
+    max-height: 500px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+}
+
 .navbar {
     filter: drop-shadow(2px 2px 2px #ffffff);
     -webkit-backdrop-filter: blur(8px);
