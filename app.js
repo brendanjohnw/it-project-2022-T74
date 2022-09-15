@@ -121,7 +121,7 @@ app.post("/post-book", upload.single("image"), async (req, res, next) => {
             res.redirect("/addbook");
         } else if ((req.body.description).length > 150) {
             req.flash("flash", "Description can only have 150 characters");
-            fs.unlinkSync(`/public/uploads/`${req.body.filename}`)
+            fs.unlinkSync(`/public/uploads/${req.body.filename}`)
             res.redirect("/addbook");
         } else if (req.file.filename !== undefined) {
             const newBook = new Book({
