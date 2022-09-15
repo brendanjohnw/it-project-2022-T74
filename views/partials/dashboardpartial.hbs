@@ -43,40 +43,47 @@
                 {{/each}}
             </div>
             <div class="card-body">
-                <!-- Display all the cards  -->
-                <div class="cards">
-                    {{>addbookcard}}
-                    {{#each UserData}}
-                    {{#each book_array}}
-                    <div class="col">
-                        <div class="card shadow" style="height: 35rem;">
-
-                            <!-- To be fixed -->
-                            <div class="center-cropped" style="background-image: url('/public/uploads/{{this.filename}}');">
-                                <img class="card-img-top" src="/public/uploads/{{this.filename}}">
-                            </div>
-                            </script>
-
-                            <div class="card-body">
-                                <h5 class="card-title">{{title}}</h5>
-                                <p class="card-text"><em>by {{author}}</em></p>
-                                <p class="card-text">{{description}}</p>
-                            </div>
-                            <div class="card-footer" style="height: 3.5rem">
-                                <p class="text-center">
-                                    <a href="/book" class="btn btn-primary stretched-link">Check out <strong>
-                                            {{title}}</strong></a>
-                                </p>
-                            </div>
-
+                <div class="container">
+                    <div class="row">
+                        <!--ADD CLASSES HERE d-flex align-items-stretch-->
+                        <div class="col-lg-6 mb-3 d-flex align-items-stretch">
+                            {{>addbookcard}}
                         </div>
-                    </div>
-                    {{/each}}
-                    {{/each}}
-                </div>
+                        <!--ADD CLASSES HERE d-flex align-items-stretch-->
+                        {{#each UserData}}
+                        {{#each book_array}}
+                        <div class="col-lg-6 mb-3 d-flex align-items-stretch">
+                            <div class="card mb-3 shadow" style="max-width: 540px;">
+                                <div class='container'>
+                                    <div class="row g-0">
+                                        <div class="col-md-4">
+                                            <!-- Center image to card -->
+                                            <div class="mb-3">
+                                                <img src="/public/uploads/{{filename}}" class="shadow img-fluid ">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <div class="card-body">
+                                                <h5 class="card-title"><strong>{{title}}</strong></h5>
+                                                <p><em>by {{author}}</em></p>
+                                                <p class="card-text">{{description}}</p>
+                                            </div>
+                                            <a href="#thebook" class="stretched-link"></a>
+                                        </div>
+                                    </div>
+                                </div>
 
+                            </div>
+                        </div>
+                        {{/each}}
+                        {{/each}}
+                        <!--ADD CLASSES HERE d-flex align-items-stretch-->
+                    </div>
+                </div>
             </div>
+
         </div>
+    </div>
 
 
     </div>
