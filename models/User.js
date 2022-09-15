@@ -17,6 +17,7 @@ const bookSchema = new Schema({
     genre: { type: String },
     in_wishlist: { type: Boolean },
     rating: { type: Number },
+    filename: {type: String},
     img: {
         data: Buffer,
         contentType: String,

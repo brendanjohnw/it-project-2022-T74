@@ -42,15 +42,39 @@
                 📖 Here is your reading list <strong>{{this.username}}</strong>
                 {{/each}}
             </div>
-            <!-- Display all the cards  -->
-            <div class="cards">       
-                {{>addbookcard}}
-                {{#each UserData}}
-                {{#each book_array}}
-                    {{> bookcard title=this.title author=this.author 
-                    img_data=this.img.data img_type=this.img.contentType}}
-                {{/each}}
-                {{/each}}
+            <div class="card-body">
+                <!-- Display all the cards  -->
+                <div class="cards">
+                    {{>addbookcard}}
+                    {{#each UserData}}
+                    {{#each book_array}}
+                    <div class="col">
+                        <div class="card shadow" style="height: 35rem;">
+
+                            <!-- To be fixed -->
+                            <div class="center-cropped" style="background-image: url('/public/uploads/{{this.filename}}');">
+                                <img class="card-img-top" src="/public/uploads/{{this.filename}}">
+                            </div>
+                            </script>
+
+                            <div class="card-body">
+                                <h5 class="card-title">{{title}}</h5>
+                                <p class="card-text"><em>by {{author}}</em></p>
+                                <p class="card-text">{{description}}</p>
+                            </div>
+                            <div class="card-footer" style="height: 3.5rem">
+                                <p class="text-center">
+                                    <a href="/book" class="btn btn-primary stretched-link">Check out <strong>
+                                            {{title}}</strong></a>
+                                </p>
+                            </div>
+
+                        </div>
+                    </div>
+                    {{/each}}
+                    {{/each}}
+                </div>
+
             </div>
         </div>
 
