@@ -94,13 +94,15 @@ app.post("/register", async (req, res) => {
 // multer is used for image upload
 
 import multer from "multer";
+import fs from "fs";
+
 
 export const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, "uploads");
+        cb(null, "public/uploads");
     },
     filename: (req, file, cb) => {
-        cb(null, file.fieldname + "-" + Date.now());
+        cb(null, file.fieldname + "-" + Date.now() + '.png');
     },
 });
 
@@ -117,19 +119,23 @@ app.post("/post-book", upload.single("image"), async (req, res, next) => {
         if (req.body.title === "" || req.body.author === "") {
             req.flash("flash", "Please enter title and author!");
             res.redirect("/addbook");
+        } else if ((req.body.description).length > 150) {
+            req.flash("flash", "Description can only have 150 characters");
+            fs.unlinkSync(`/public/uploads/`${req.body.filename}`)
+            res.redirect("/addbook");
         } else if (req.file.filename !== undefined) {
             const newBook = new Book({
                 title: req.body.title,
                 author: req.body.author,
                 description: req.body.description,
                 genre: req.body.genre,
+                filename: req.file.filename,
                 img: {
                     data: req.file.filename,
                     contentType: req.file.mimetype,
                 },
                 date_added: new Date().toLocaleString("en-US", options),
             });
-            console.log("Hello");
             const thisUser = await User.findOne({ username: username_login });
             const data = new Book(newBook);
             thisUser.book_array.push(data);
@@ -149,6 +155,7 @@ app.post("/post-book", upload.single("image"), async (req, res, next) => {
                 .catch((err) => {
                     console.log("Error has occurred!");
                 });
+            console.log(req.file.filename)
             res.redirect("/dashboard");
         }
     } catch (err) {

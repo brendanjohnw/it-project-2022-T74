@@ -9,9 +9,9 @@
 
         <!-- To be fixed -->
         <script id="t" type="text/x-handlebars">
-            <img class="card-img-top" src="{{createSrc (toString64 img_data) img_type}}">
+            <img class="card-img-top" src="/public/uploads/{{this.filename}}">
         </script>
-        
+
         <div class="card-body">
             <h5 class="card-title">{{title}}</h5>
             <p class="card-text">{{author}}</p>
@@ -19,8 +19,9 @@
         <div class="card-footer" style="height: 3.5rem">
             <p class="text-center">
                 <a href="/book" class="btn btn-primary stretched-link">Check out <strong>
-                    {{title}}</strong></a>
+                        {{title}}</strong></a>
             </p>
         </div>
+
     </div>
 </div>
