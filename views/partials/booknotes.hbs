@@ -34,63 +34,33 @@
             <div class="row justify-content-center align-items-center h-100">
                 <div class="col-12 col-lg-9 col-xl-7">
                     <div class="card shadow card-registration"  style="border-radius: 15px;">
-
+                        {{#each BookData}}
                         <div class="card-body" style="flex-direction: row">
-
                             <section class="card-body">
                                 <div class="row">
                                     <div class="col">
-                                        <img src="/public/img/placeholder.jpeg" class="card-img-top" alt="book cover">
+                                        <div class="mb-3">
+                                            <img src="/public/uploads/{{filename}}" class="shadow img-fluid ">
+                                        </div>
                                     </div>
                                     <div class="col">
-                                        <h3>lorem ipsum</h3>
+                                        <h2>{{title}}</h2>
+                                        <p>by {{author}}</p>
+                                        <p>Genre: {{genre}}</p>
                                     </div>
                                 </div>
-                            </section>
-
-                            <section class="card-body">
-                                <h1 class="text-center"> THIS IS A THING</h1>
-                            </section>
-
-
+                            </section>                  
+                            <p>{{description}}</p>
                             <div id="clock-small"></div>
-
+                            <a href="/editbook?id={{_id}}">Edit book</a>
+                            <a href="/deletebook?id={{_id}}">Delete book</a>
                         </div>
-
-                        <div>
-                            
-
-                        <div class="card shadow" style="border-radius: 15px";>
-                            <section class="card-body">
-
-                                <h2>LOREM IPSUM</h2>
-
-
-                            </section>
-                            
-
-                        </div>
-
-
-
-                        </div>
-
-
-
-
-
-
-
-
-
+                        {{/each}}
                     </div>
                 </div>
             </div>
         </div>
-
     </section>
-
-    
-   
 </body>
+
 
