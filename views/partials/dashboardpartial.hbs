@@ -43,15 +43,47 @@
                 {{/each}}
             </div>
             <div class="card-body">
-                <div class="row row-cols-1 row-cols-md-3 g-4">
-                    <div class="col">
-                        {{>addbookcard}}
+                <div class="container">
+                    <div class="row">
+                        <!--ADD CLASSES HERE d-flex align-items-stretch-->
+                        <div class="col-lg-6 mb-3 d-flex align-items-stretch">
+                            {{>addbookcard}}
+                        </div>
+                        <!--ADD CLASSES HERE d-flex align-items-stretch-->
+                        {{#each UserData}}
+                        {{#each book_array}}
+                        <div class="col-lg-6 mb-3 d-flex align-items-stretch">
+                            <div class="card mb-3 shadow" style="max-width: 540px;">
+                                <div class='container'>
+                                    <div class="row g-0">
+                                        <div class="col-md-4">
+                                            <!-- Center image to card -->
+                                            <div class="mb-3">
+                                                <img src="/public/uploads/{{filename}}" class="shadow img-fluid ">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <div class="card-body">
+                                                <h5 class="card-title"><strong>{{title}}</strong></h5>
+                                                <p><em>by {{author}}</em></p>
+                                                <p class="card-text">{{description}}</p>
+                                            </div>
+                                            <a href="/book?id={{_id}}" class="stretched-link"></a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        {{/each}}
+                        {{/each}}
+                        <!--ADD CLASSES HERE d-flex align-items-stretch-->
                     </div>
-                    <!-- Reiterate by user's book with handlebars, code is in the bookcard partial -->
-                    {{>bookcard}}
                 </div>
             </div>
+
         </div>
+    </div>
 
 
     </div>

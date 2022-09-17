@@ -4,7 +4,16 @@ import express from "express";
 import session from "express-session";
 import flash from "express-flash";
 import passport from "../passport.js";
-import { getLogin, getRegister, getDashboard, getAddbook, getBook } from "../controllers/AuthController.js";
+import {
+    getLogin,
+    getRegister,
+    getDashboard,
+    getAddbook,
+    getBook,
+    getEditbook,
+} from "../controllers/AuthController.js";
+import { Book, User } from "../models/User.js";
+import { username_login } from "../passport.js";
 
 export const authRouter = express.Router();
 authRouter.use(flash());
@@ -83,4 +92,19 @@ authRouter.get("/addbook", checkAuthentication, getAddbook);
 
 // Route for viewing book
 
-authRouter.get("/book", getBook);
+authRouter.get("/book", checkAuthentication, getBook);
+
+// Route for editing book
+
+authRouter.get("/editbook", checkAuthentication, getEditbook);
+
+// Route for deleting book
+authRouter.get("/deletebook", checkAuthentication, async (req, res) => {
+    try {
+        await User.updateOne({ username: username_login }, { $pull: { book_array: { _id: req.query.id } } });
+        await Book.findByIdAndDelete(req.query.id);
+    } catch (err) {
+        console.log(err);
+    }
+    res.redirect("/dashboard");
+});
