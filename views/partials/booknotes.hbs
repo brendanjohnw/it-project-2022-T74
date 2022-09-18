@@ -93,10 +93,13 @@
 </div>
 
 <!-- View Notes -->
+{{#each BookData}}
+{{#if comments}}
 <div class='p-5 text-center'>
     <h2>Here are your notes! 📝</h2>
 </div>
-{{#each BookData}}
+
+
 {{#each comments}}
 <div class="container">
 
@@ -119,4 +122,6 @@
 
 
 </div> {{/each}}
+
+{{/if}}
 {{/each}}
