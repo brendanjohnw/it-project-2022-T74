@@ -1,5 +1,5 @@
 <script src="/public/js/bootstrap.js"></script>
-
+<!-- HTML for the overview of each book in a user's library -->
 
 <head>
     <script crossorigin="anonymous" src="https://kit.fontawesome.com/2e58876b6d.js"></script>
@@ -11,56 +11,87 @@
 </head>
 
 <head>
-    <script>
-        function startTime() {
-            const today = new Date();
-            let h = today.getHours();
-            let m = today.getMinutes();
-            m = checkTime(m);
-            document.getElementById('clock-small').innerHTML = h + ":" + m;
-            setTimeout(startTime, 1000);
-        }
-
-        function checkTime(i) {
-            if (i < 10) { i = "0" + i };  // add zero in front of numbers < 10
-            return i;
-        }
-    </script>
 </head>
 
-<body onload="startTime()">
-    <section class="vh-100 gradient-custom">
-        <div class="container py-5 h-40">
-            <div class="row justify-content-center align-items-center h-100">
-                <div class="col-12 col-lg-9 col-xl-7">
-                    <div class="card shadow card-registration"  style="border-radius: 15px;">
-                        {{#each BookData}}
-                        <div class="card-body" style="flex-direction: row">
-                            <section class="card-body">
-                                <div class="row">
-                                    <div class="col">
-                                        <div class="mb-3">
-                                            <img src="/public/uploads/{{filename}}" class="shadow img-fluid ">
-                                        </div>
-                                    </div>
-                                    <div class="col">
-                                        <h2>{{title}}</h2>
-                                        <p>by {{author}}</p>
-                                        <p>Genre: {{genre}}</p>
+<!-- Note adding -->
+<div class="container py-5 h-40">
+
+    <div class="row justify-content-center align-items-center h-100">
+        <div class="col-12 col-lg-9 col-xl-7">
+            <div class="card shadow card-registration" style="border-radius: 15px;">
+                <div class="card-body" style="flex-direction: row">
+                    {{#each BookData}}
+                    <div class="card-body" style="flex-direction: row">
+                        <section class="card-body">
+                            <div class="row">
+                                <div class="col">
+                                    <div class="mb-3">
+                                        <img src="/public/uploads/{{filename}}" class="shadow img-fluid ">
                                     </div>
                                 </div>
-                            </section>                  
-                            <p>{{description}}</p>
-                            <div id="clock-small"></div>
-                            <a href="/editbook?id={{_id}}">Edit book</a>
-                            <a href="/deletebook?id={{_id}}">Delete book</a>
-                        </div>
-                        {{/each}}
+                                <div class="col">
+                                    <h2>{{title}}</h2>
+                                    <p><em>by {{author}}</em></p>
+                                    <p>Genre: {{genre}}</p>
+                                    <p>{{description}}</p>
+                                    <a class="btn btn-primary btn-sm " href="/editbook?id={{_id}}">Edit book</a>
+                                    <a class="btn btn-danger btn-sm " href="/deletebook?id={{_id}}">Delete
+                                        book</a>
+                                </div>
+                            </div>
+                        </section>
                     </div>
+                    {{/each}}
+                    <div class="p-5 text-center">
+                        <h2 align="center"> Add some notes 📝</h2>
+                        <h4>Enter notes of your reading regularly!</h4>
+                        <br>
+                        <textarea name="header" id="header" rows="1" cols="50" form="formcomments"
+                            placeholder="Enter a header for your note!"></textarea>
+                        <textarea id="comments" name="comments" rows="8" cols="50" maxlength="2000" form="formcomments"
+                            placeholder="Enter a creative note!"></textarea>
+                        <form action="/post-comment" id="formcomments" name="formcomments" method="post">
+                            <div class="row">
+                                {{#each BookData}}
+                                <input type="hidden" id="bookId" name="bookId" value="{{_id}}">
+                                {{/each}}
+                            </div>
+                            <br>
+                            <button type="submit" class="btn btn-primary btn-md">Add note</button>
+                        </form>
+                    </div>
+
                 </div>
             </div>
         </div>
-    </section>
-</body>
+    </div>
+</div>
+
+<!-- View Notes -->
+<div class='p-5 text-center'>
+    <h2>Here are your notes! 📝</h2>
+</div>
+{{#each BookData}}
+{{#each comments}}
+<div class="container">
 
 
+    <div class="row justify-content-center align-items-center">
+        <div class="col-xl-7">
+            <div class="card shadow" style="border-radius: 15px;">
+
+                <div class="card-header">
+                    {{this.header}}
+                </div>
+                <div class="p-5 text-center">
+                    {{this.content}}
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+
+</div> {{/each}}
+{{/each}}

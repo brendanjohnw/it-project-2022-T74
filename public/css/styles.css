@@ -20,6 +20,10 @@ h1 {
     margin-right: 1rem
 }
 
+textarea {
+    border-radius: 1rem;
+}
+
 .welcome-msg {
     text-align: center;
     font-family: 'Roboto', 'sans-serif', 300;
@@ -29,9 +33,6 @@ h1 {
     margin-bottom: 0.5rem;
 }
 
-.card-body {
-    margin: 1.4rem;
-}
 
 .cards {
     margin: 3rem;
@@ -40,6 +41,8 @@ h1 {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 30px;
+    border-radius: 2rem;
+
 }
 
 .center-cropped {

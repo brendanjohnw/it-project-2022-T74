@@ -85,7 +85,7 @@ app.post("/register", async (req, res) => {
 
 import multer from "multer";
 import fs from "fs";
-
+// Provides disk storage for image uploads
 export const storage = multer.diskStorage({
     destination: (req, file, cb) => {
         cb(null, "public/uploads");
@@ -97,6 +97,7 @@ export const storage = multer.diskStorage({
 
 var upload = multer({ storage: storage });
 
+// Route that handles the posting of book data to the database
 app.post("/post-book", upload.single("image"), async (req, res, next) => {
     const options = {
         weekday: "long",
@@ -195,6 +196,35 @@ app.post("/edit-book", upload.single("image"), async (req, res, next) => {
     }
 });
 // End of edit book
+// Posting a comment
+app.post("/post-comment", async (req, res, next) => {
+    if ((req.body.comments) === "") {
+        req.flash("flash", "Please enter a comment before submitting");
+    } else {
+        const comment = new Comment({
+            made_by: req.body.userId,
+            made_by_user: req.body.username,
+            header: req.body.header,
+            content: req.body.comments
+        })
+        console.log(comment)
+        const thisBook = await Book.findOne({ _id: req.body.bookId });
+        console.log(req.body.bookId)
+        const data = new Comment(comment)
+        thisBook.comments.push(data)
+        comment.save()
+        await thisBook
+            .save()
+            .then((res) => {
+                console.log("Saved");
+            })
+            .catch((err) => {
+                console.log("Error has occurred!");
+            });
+        res.redirect(`/book?id=${req.body.bookId}`);
+
+    }
+})
 
 app.listen(process.env.PORT || 3900 || "0.0.0.0", () => {
     console.log("running!");
