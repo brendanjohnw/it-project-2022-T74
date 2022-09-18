@@ -3,7 +3,9 @@ const Schema = mongoose.Schema;
 
 const commentSchema = new Schema({
     made_by: { type: Schema.Types.ObjectId, ref: "User" },
+    made_by_user: {type: String},
     content: { type: String },
+    header: {type: String},
     date_created: { type: Date, default: Date.now },
 });
 

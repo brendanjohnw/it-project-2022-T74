@@ -47,7 +47,13 @@ export const getBook = async (req, res) => {
                 comments: true,
             }
         ).lean();
-        res.render("book", { BookData: bookData });
+        const userData = await User.find(
+            { _id: req.query.id },
+            {
+                username: true,
+            }
+        ).lean()
+        res.render("book", { BookData: bookData, UserData: userData });
     } catch (err) {
         console.log(err);
     }
