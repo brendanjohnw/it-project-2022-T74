@@ -11,6 +11,7 @@ import {
     getAddbook,
     getBook,
     getEditbook,
+    getSettings,
 } from "../controllers/AuthController.js";
 import { Book, User } from "../models/User.js";
 import { username_login } from "../passport.js";
@@ -57,7 +58,7 @@ export const checkAuthentication = (req, res, next) => {
 authRouter.get("/", getRegister);
 authRouter.get("/login", getLogin);
 authRouter.get("/dashboard", checkAuthentication, getDashboard);
-
+authRouter.get("/settings", checkAuthentication, getSettings)
 // Handle login
 authRouter.post(
     "/login",

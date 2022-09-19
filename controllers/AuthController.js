@@ -10,6 +10,24 @@ export const getRegister = (req, res) => {
     res.render("signup", { flash: req.flash("flash"), title: "Signup" });
 };
 
+export const getSettings = async (req, res) => {
+    try {
+        console.log(username_login);
+        const userData = await User.find(
+            { username: username_login },
+            {
+                username: true,
+                book_array: true,
+            }
+        ).lean();
+        res.render("settings", {
+            UserData: userData,
+        });
+    } catch (err) {
+        console.log(err);
+    }
+}
+
 export const getDashboard = async (req, res) => {
     try {
         console.log(username_login);
