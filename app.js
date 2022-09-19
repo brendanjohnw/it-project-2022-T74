@@ -12,6 +12,12 @@ import cookieParser from "cookie-parser";
 import flash from "express-flash";
 import bcrypt from "bcryptjs";
 import { username_login } from "./passport.js";
+import passport from 'passport';
+import LocalStrategy from 'passport-local';
+
+
+import passportLocalMongoose from 'passport-local-mongoose'
+
 
 const app = express();
 app.engine(".hbs", engine({ extname: ".hbs" }));
@@ -96,6 +102,42 @@ export const storage = multer.diskStorage({
 });
 
 var upload = multer({ storage: storage });
+
+// Handles the posting of new password when user changes it
+
+app.post("/changepassword", async (req, res, next) => {
+    User.findOne({ username: req.body.username }, {}, {}, (err, user) => {
+        if (err) {
+            console.log("Well you're screwed")
+        }
+        if (!user) {
+            console.log("No user")
+        }
+        bcrypt.compare(req.body.password1, user.password).then((isMatch) => {
+            if (isMatch) {
+                // old password matches!
+                // hash new password
+                console.log("match!")
+                bcrypt.hash(req.body.password2, 10, function (err, hashedPass) {
+                    console.log(hashedPass)
+                    // finds the user by username and updates their password
+                    const thisUser = User.findOneAndUpdate({ username: req.body.username }, { password: hashedPass }, (err, data) => {
+                        if (err) {
+                            console.log("Well, you failed")
+                        } else {
+                            console.log(data)
+                        }
+                    })
+                })
+                res.redirect('/dashboard');
+            } else {
+                req.flash("flash", "Your old password is incorrect");
+                res.redirect('/settings')
+            }
+        });
+    });
+})
+
 
 // Route that handles the posting of book data to the database
 app.post("/post-book", upload.single("image"), async (req, res, next) => {
@@ -200,10 +242,10 @@ app.post("/edit-book", upload.single("image"), async (req, res, next) => {
 app.post("/post-comment", async (req, res, next) => {
     if ((req.body.comments) === "") {
         req.flash("flash", "Please enter a comment before submitting");
+        res.redirect(`/book?id=${req.body.bookId}`)
     } else {
         const comment = new Comment({
-            made_by: req.body.userId,
-            made_by_user: req.body.username,
+            made_by_user: req.body.made_by_user,
             header: req.body.header,
             content: req.body.comments
         })

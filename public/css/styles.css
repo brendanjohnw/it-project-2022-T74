@@ -5,12 +5,18 @@
     font-family: Roboto;
 }
 
-h1 {
+h1,
+h2,
+h3 {
     font-family: 'Noto Serif', serif;
 }
 
 .logo-margin {
     margin-left: 0.5rem;
+}
+
+.dashboard-image {
+    border-radius: 0.5rem;
 }
 
 .container {
@@ -133,3 +139,9 @@ body {
         padding-top: 90px;
     }
 }
+
+.alias {
+    font-size: medium;
+}
+
+/* Fun stuff */

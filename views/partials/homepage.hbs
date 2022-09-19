@@ -1,29 +1,31 @@
 <script src="/public/js/bootstrap.js"></script>
-<!-- The homepage/splashscreen when a user enters the web application, it would ask the user to either sign up or login if they have an existing account --> 
+<!-- The homepage/splashscreen when a user enters the web application, it would ask the user to either sign up or login if they have an existing account -->
 
-<div class="container">
-    <div class="card shadow p3">
-        <div class="p-5 text-center">
-            <img src="/public/img/book_large.png">
-            <h1><strong>Book</strong>pedia</h1>
-            <h3>It's exactly what you think it is..</h3>
-            <p>A book keeping app designed to help you keep track of your reading</p>
+<div class="container py-5 h-40">
+    <div class="row justify-content-center align-items-center h-100">
+        <div class="col-12 col-lg-9 col-xl-7">
+            <div class="card shadow card-registration" style="border-radius: 15px;">
+                <div class="card-body" style="flex-direction: row">
+                    <div class="p-5 text-center">
+                        <img src="/public/img/book_large.png">
+                        <h1><strong>Book</strong>pedia</h1>
+                        <h3>It's exactly what you think it is..</h3>
+                        <p>A book keeping app designed to help you keep track of your reading</p>
 
-            <div class="columns is-centered">
-                <form action="/auth">
-                    <button type="submit" onclick="/auth" class="btn btn-primary btn-lg">Sign up</button>
-                </form>
-            </div>
-            <br>
-            <div class="columns is-centered">
-                <form action="/auth/login">
-                    <button type="submit" class="btn btn-light btn-lg">Log in</button>
-                </form>
-            </div>
-
-            <br>
-            <div class="columns is-centered">
-
+                        <div class="columns is-centered">
+                            <form action="/auth">
+                                <button type="submit" onclick="/auth" class="btn btn-primary btn-lg">Sign up</button>
+                            </form>
+                        </div>
+                        <br>
+                        <div class="columns is-centered">
+                            <form action="/auth/login">
+                                <button type="submit" class="btn btn-light btn-lg">Log in</button>
+                            </form>
+                        </div>
+                        <br>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
