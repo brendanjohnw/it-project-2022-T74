@@ -120,17 +120,19 @@ app.post("/changepassword", async (req, res, next) => {
                 console.log("match!")
                 bcrypt.hash(req.body.password2, 10, function (err, hashedPass) {
                     console.log(hashedPass)
-                    const thisUser = User.findOneAndUpdate({username: req.body.username}, {password: hashedPass}, (err, data)=>{
-                        if(err){
+                    // finds the user by username and updates their password
+                    const thisUser = User.findOneAndUpdate({ username: req.body.username }, { password: hashedPass }, (err, data) => {
+                        if (err) {
                             console.log("Well, you failed")
-                        }else{
+                        } else {
                             console.log(data)
                         }
                     })
                 })
                 res.redirect('/dashboard');
             } else {
-                console.log('Something went really wrong')
+                req.flash("flash", "Your old password is incorrect");
+                res.redirect('/settings')
             }
         });
     });
@@ -240,10 +242,10 @@ app.post("/edit-book", upload.single("image"), async (req, res, next) => {
 app.post("/post-comment", async (req, res, next) => {
     if ((req.body.comments) === "") {
         req.flash("flash", "Please enter a comment before submitting");
+        res.redirect(`/book?id=${req.body.bookId}`)
     } else {
         const comment = new Comment({
-            made_by: req.body.userId,
-            made_by_user: req.body.username,
+            made_by_user: req.body.made_by_user,
             header: req.body.header,
             content: req.body.comments
         })

@@ -22,6 +22,7 @@ export const getSettings = async (req, res) => {
         ).lean();
         res.render("settings", {
             UserData: userData,
+            flash: req.flash("flash")
         });
     } catch (err) {
         console.log(err);
@@ -66,12 +67,12 @@ export const getBook = async (req, res) => {
             }
         ).lean();
         const userData = await User.find(
-            { _id: req.query.id },
+            { username: username_login },
             {
                 username: true,
             }
         ).lean()
-        res.render("book", { BookData: bookData, UserData: userData });
+        res.render("book", { BookData: bookData, UserData: userData, flash: req.flash("flash") });
     } catch (err) {
         console.log(err);
     }

@@ -5,7 +5,9 @@
     font-family: Roboto;
 }
 
-h1, h2, h3 {
+h1,
+h2,
+h3 {
     font-family: 'Noto Serif', serif;
 }
 
@@ -137,3 +139,9 @@ body {
         padding-top: 90px;
     }
 }
+
+.alias {
+    font-size: medium;
+}
+
+/* Fun stuff */

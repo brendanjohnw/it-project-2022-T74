@@ -30,7 +30,9 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Close</button>
+                {{#each BookData}}
                 <a class="btn btn-danger btn-sm " href="/deletebook?id={{_id}}">delete book</a>
+                {{/each}}
             </div>
         </div>
     </div>
@@ -43,13 +45,15 @@
         <div class="col-12 col-lg-9 col-xl-7">
             <div class="card shadow card-registration" style="border-radius: 15px;">
                 <div class="card-body" style="flex-direction: row">
+
                     {{#each BookData}}
                     <div class="card-body" style="flex-direction: row">
                         <section class="card-body">
+                            <p align='left'><a href="/dashboard"><i class="fa-solid fa-arrow-left fa-1x">Back</i></a></p>
                             <div class="row">
                                 <div class="col">
                                     <div class="mb-3">
-                                        <img src="/public/uploads/{{filename}}" class="shadow img-fluid ">
+                                        <img src="/public/uploads/{{filename}}" class="shadow img-fluid rounded">
                                     </div>
                                 </div>
                                 <div class="col">
@@ -71,11 +75,17 @@
                         <h2 align="center"> Add some notes 📝</h2>
                         <h4>Enter notes of your reading regularly!</h4>
                         <br>
+                        {{#each flash}}
+                        <p class="alert">{{this}}</p>
+                        {{/each}}
                         <textarea name="header" id="header" rows="1" cols="50" form="formcomments"
                             placeholder="Enter a header for your note!"></textarea>
                         <textarea id="comments" name="comments" rows="8" cols="50" maxlength="2000" form="formcomments"
                             placeholder="Enter a creative note!"></textarea>
                         <form action="/post-comment" id="formcomments" name="formcomments" method="post">
+                            {{#each UserData}}
+                            <input type="hidden" id="made_by_user" name="made_by_user" value="{{username}}">
+                            {{/each}}
                             <div class="row">
                                 {{#each BookData}}
                                 <input type="hidden" id="bookId" name="bookId" value="{{_id}}">
@@ -83,6 +93,7 @@
                             </div>
                             <br>
                             <button type="submit" class="btn btn-primary btn-md">Add note</button>
+
                         </form>
                     </div>
 
@@ -113,6 +124,11 @@
                 </div>
                 <div class="p-5 text-center">
                     {{this.content}}
+                </div>
+                <div class="card-footer">
+                    <p class="alias" align="center">
+                        <em>{{this.made_by_user}}</em>
+                    </p>
                 </div>
 
             </div>
