@@ -210,7 +210,7 @@ app.post("/edit-book", upload.single("image"), async (req, res, next) => {
                 description: req.body.description,
                 genre: req.body.genre,
                 filename: req.file.filename,
-                in_wishlist: false,
+                in_wishlist: req.body.wishlist,
                 img: {
                     data: req.file.filename,
                     contentType: req.file.mimetype,
@@ -244,7 +244,7 @@ app.post("/edit-book", upload.single("image"), async (req, res, next) => {
     }
 });
 
-// Add to wishlist
+// Adds a book to wishlist
 app.post("/addtowishlist", async (req, res, next) => {
     const book = req.body.bookId
     const thisBook = Book.findOneAndUpdate({ _id: book }, { in_wishlist: 'yes' }, (err, data) => {
@@ -259,6 +259,7 @@ app.post("/addtowishlist", async (req, res, next) => {
     res.redirect(`/book?id=${book}`)
 });
 
+// Removes a book from the wishlist
 app.post("/removefromwishlist", async (req, res, next) => {
     const book = req.body.bookId
     const thisBook = Book.findOneAndUpdate({ _id: book }, { in_wishlist: 'no' }, (err, data) => {
@@ -270,6 +271,8 @@ app.post("/removefromwishlist", async (req, res, next) => {
     })
     res.redirect(`/book?id=${book}`)
 });
+// Sorry for the bad coding, some redundant code here.
+
 // End of edit book
 // Posting a comment
 app.post("/post-comment", async (req, res, next) => {
