@@ -18,7 +18,7 @@ const bookSchema = new Schema({
     description: { type: String },
     date_added: { type: Date, default: Date.now },
     genre: { type: String },
-    in_wishlist: { type: Boolean },
+    in_wishlist: { type: String },
     rating: { type: Number },
     filename: { type: String },
     img: {
@@ -34,6 +34,7 @@ const userSchema = new Schema({
     username: { type: String },
     password: { type: String },
     book_array: [bookSchema],
+    wishlist_array: [bookSchema]
 });
 userSchema.plugin(passportLocalMongoose);
 export const User = mongoose.model("User", userSchema);

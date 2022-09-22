@@ -33,7 +33,7 @@ export const getDashboard = async (req, res) => {
     try {
         console.log(username_login);
         const userData = await User.find(
-            { username: username_login },
+            { username: username_login},
             {
                 username: true,
                 book_array: true,
@@ -46,6 +46,7 @@ export const getDashboard = async (req, res) => {
         console.log(err);
     }
 };
+
 
 export const getAddbook = (req, res) => {
     res.render("addbook", { flash: req.flash("flash") });
@@ -61,6 +62,7 @@ export const getBook = async (req, res) => {
                 author: true,
                 description: true,
                 date_added: true,
+                in_wishlist: true,
                 genre: true,
                 filename: true,
                 comments: true,
@@ -88,6 +90,7 @@ export const getEditbook = async (req, res) => {
                 author: true,
                 description: true,
                 genre: true,
+                in_wishlist: true,
                 filename: true,
             }
         ).lean();
