@@ -1,5 +1,6 @@
 <script src="/public/js/bootstrap.js"></script>
 <!-- HTML for the dashboard. This displays brief information about a user's books -->
+
 <head>
     <script crossorigin="anonymous" src="https://kit.fontawesome.com/2e58876b6d.js"></script>
 
@@ -18,7 +19,9 @@
             </h1>
             <div id="clock"></div>
             <p></p>
-            <em><h3 id = "random-msg"></h3></em>
+            <em>
+                <h3 id="random-msg"></h3>
+            </em>
         </div>
         <div class="card shadow">
             <div class="card-header p-3">
@@ -43,12 +46,14 @@
                                         <div class="col-md-4">
                                             <!-- Center image to card -->
                                             <div class="mb-3">
-                                                <img src="/public/uploads/{{filename}}" class="shadow img-fluid dashboard-image">
+                                                <img src="/public/uploads/{{filename}}"
+                                                    class="shadow img-fluid dashboard-image">
                                             </div>
                                         </div>
                                         <div class="col-md-8">
                                             <div class="card-body">
-                                                <h5 class="card-title"><strong>{{title}}</strong> </h5><em>{{genre}}</em>
+                                                <h5 class="card-title"><strong>{{title}}</strong>
+                                                </h5><em>{{genre}}</em>
                                                 <p><em>by {{author}}</em></p>
                                                 <p class="card-text">{{description}}</p>
                                             </div>

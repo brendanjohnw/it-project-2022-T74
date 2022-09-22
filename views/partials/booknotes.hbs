@@ -10,8 +10,6 @@
 
 </head>
 
-<head>
-</head>
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
     aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -49,7 +47,8 @@
                     {{#each BookData}}
                     <div class="card-body" style="flex-direction: row">
                         <section class="card-body">
-                            <p align='left'><a href="/dashboard"><i class="fa-solid fa-arrow-left fa-1x">Back</i></a></p>
+                            <p align='left'><a href="/dashboard"><i class="fa-solid fa-arrow-left fa-1x">Back</i></a>
+                            </p>
                             <div class="row">
                                 <div class="col">
                                     <div class="mb-3">
@@ -66,6 +65,22 @@
                                         data-target="#exampleModal">
                                         Delete Book
                                     </button>
+                                    <br><br>
+                                    <p id="add-to-wish">
+                                    </p>
+                                    <script>
+                                        var container = document.getElementById("add-to-wish")
+                                        var wishlist = "{{{ this.in_wishlist }}}"
+                                        var bookID = "{{{this._id}}}"
+                                        container.innerHTML = wishlist
+                                        if (wishlist === "no") {
+                                            container.innerHTML = `<form method='post' action='/addtowishlist'> <input type = 'hidden' id = 'bookId' name = 'bookId' value = '${bookID}'><button type='submit' class='btn btn-light btn-sm'>add to wishlist</button></form>`
+                                        }
+                                        if (wishlist === 'yes') {
+                                            container.innerHTML = `<form method='post' action='/removefromwishlist'> <input type = 'hidden' id = 'bookId' name = 'bookId' value = '${bookID}'><button type='submit' class='btn btn-success btn-sm'> <strong>remove from wishlist<strong></button></form>`
+                                        }
+                                    </script>
+
                                 </div>
                             </div>
                         </section>

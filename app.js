@@ -1,6 +1,7 @@
 // Listen for requests
 import express from "express";
 import { create, engine } from "express-handlebars";
+import expressHbs from "express-handlebars";
 import { fileURLToPath } from "url";
 import path from "path";
 import { mainRouter } from "./routes/mainRouter.js";
@@ -24,6 +25,7 @@ app.engine(".hbs", engine({ extname: ".hbs" }));
 app.set("view engine", ".hbs");
 app.set("views", "./views");
 app.use(cookieParser());
+
 
 // Serve static content
 // Database stuff
@@ -49,6 +51,7 @@ app.use(flash());
 app.use(authRouter);
 
 export var logged_in_user = "";
+
 
 // Registers a user for the app
 app.post("/register", async (req, res) => {
@@ -161,6 +164,7 @@ app.post("/post-book", upload.single("image"), async (req, res, next) => {
                 author: req.body.author,
                 description: req.body.description,
                 genre: req.body.genre,
+                in_wishlist: req.body.wishlist,
                 filename: req.file.filename,
                 img: {
                     data: req.file.filename,
@@ -171,6 +175,7 @@ app.post("/post-book", upload.single("image"), async (req, res, next) => {
             const thisUser = await User.findOne({ username: username_login });
             const data = new Book(newBook);
             thisUser.book_array.push(data);
+            thisUser.wishlist_array.push(data)
             newBook.save();
             await thisUser
                 .save()
@@ -205,6 +210,7 @@ app.post("/edit-book", upload.single("image"), async (req, res, next) => {
                 description: req.body.description,
                 genre: req.body.genre,
                 filename: req.file.filename,
+                in_wishlist: false,
                 img: {
                     data: req.file.filename,
                     contentType: req.file.mimetype,
@@ -236,6 +242,33 @@ app.post("/edit-book", upload.single("image"), async (req, res, next) => {
             console.log(err);
         }
     }
+});
+
+// Add to wishlist
+app.post("/addtowishlist", async (req, res, next) => {
+    const book = req.body.bookId
+    const thisBook = Book.findOneAndUpdate({ _id: book }, { in_wishlist: 'yes' }, (err, data) => {
+        if (err) {
+            console.log("Well, you failed")
+        } else {
+            console.log(data)
+        }
+    })
+    const thisUser = await User.findOne({ username: username_login });
+
+    res.redirect(`/book?id=${book}`)
+});
+
+app.post("/removefromwishlist", async (req, res, next) => {
+    const book = req.body.bookId
+    const thisBook = Book.findOneAndUpdate({ _id: book }, { in_wishlist: 'no' }, (err, data) => {
+        if (err) {
+            console.log("Well, you failed")
+        } else {
+            console.log(data)
+        }
+    })
+    res.redirect(`/book?id=${book}`)
 });
 // End of edit book
 // Posting a comment
