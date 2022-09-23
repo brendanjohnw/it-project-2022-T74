@@ -13,7 +13,7 @@ import {
     getEditbook,
     getSettings,
 } from "../controllers/AuthController.js";
-import { Book, User } from "../models/User.js";
+import { Book, User, Comment } from "../models/User.js";
 import { username_login } from "../passport.js";
 
 export const authRouter = express.Router();
@@ -103,6 +103,11 @@ authRouter.get("/editbook", checkAuthentication, getEditbook);
 // Route for deleting book
 authRouter.get("/deletebook", checkAuthentication, async (req, res) => {
     try {
+        const book = await Book.findOne({ _id: req.query.id });
+        const comments = book.comments;
+        for (var i = 0; i < comments.length; i++) {
+            await Comment.findByIdAndDelete(comments[i]._id);
+        }
         await User.updateOne(
             { username: username_login },
             { $pull: { book_array: { _id: req.query.id }, wishlist_array: { _id: req.query.id } } }
