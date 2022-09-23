@@ -1,12 +1,11 @@
 import mongoose from "mongoose";
 const Schema = mongoose.Schema;
-import passportLocalMongoose from 'passport-local-mongoose'
+import passportLocalMongoose from "passport-local-mongoose";
 
 const commentSchema = new Schema({
-    made_by: { type: Schema.Types.ObjectId, ref: "User" },
     made_by_user: { type: String },
-    content: { type: String },
     header: { type: String },
+    content: { type: String },
     date_created: { type: Date, default: Date.now },
 });
 
@@ -34,7 +33,7 @@ const userSchema = new Schema({
     username: { type: String },
     password: { type: String },
     book_array: [bookSchema],
-    wishlist_array: [bookSchema]
+    wishlist_array: [bookSchema],
 });
 userSchema.plugin(passportLocalMongoose);
 export const User = mongoose.model("User", userSchema);

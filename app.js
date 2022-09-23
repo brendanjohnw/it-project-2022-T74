@@ -13,19 +13,16 @@ import cookieParser from "cookie-parser";
 import flash from "express-flash";
 import bcrypt from "bcryptjs";
 import { username_login } from "./passport.js";
-import passport from 'passport';
-import LocalStrategy from 'passport-local';
+import passport from "passport";
+import LocalStrategy from "passport-local";
 
-
-import passportLocalMongoose from 'passport-local-mongoose'
-
+import passportLocalMongoose from "passport-local-mongoose";
 
 const app = express();
 app.engine(".hbs", engine({ extname: ".hbs" }));
 app.set("view engine", ".hbs");
 app.set("views", "./views");
 app.use(cookieParser());
-
 
 // Serve static content
 // Database stuff
@@ -51,7 +48,6 @@ app.use(flash());
 app.use(authRouter);
 
 export var logged_in_user = "";
-
 
 // Registers a user for the app
 app.post("/register", async (req, res) => {
@@ -94,6 +90,7 @@ app.post("/register", async (req, res) => {
 
 import multer from "multer";
 import fs from "fs";
+
 // Provides disk storage for image uploads
 export const storage = multer.diskStorage({
     destination: (req, file, cb) => {
@@ -107,40 +104,42 @@ export const storage = multer.diskStorage({
 var upload = multer({ storage: storage });
 
 // Handles the posting of new password when user changes it
-
 app.post("/changepassword", async (req, res, next) => {
     User.findOne({ username: req.body.username }, {}, {}, (err, user) => {
         if (err) {
-            console.log("Well you're screwed")
+            console.log("Well you're screwed");
         }
         if (!user) {
-            console.log("No user")
+            console.log("No user");
         }
         bcrypt.compare(req.body.password1, user.password).then((isMatch) => {
             if (isMatch) {
                 // old password matches!
                 // hash new password
-                console.log("match!")
+                console.log("match!");
                 bcrypt.hash(req.body.password2, 10, function (err, hashedPass) {
-                    console.log(hashedPass)
+                    console.log(hashedPass);
                     // finds the user by username and updates their password
-                    const thisUser = User.findOneAndUpdate({ username: req.body.username }, { password: hashedPass }, (err, data) => {
-                        if (err) {
-                            console.log("Well, you failed")
-                        } else {
-                            console.log(data)
+                    const thisUser = User.findOneAndUpdate(
+                        { username: req.body.username },
+                        { password: hashedPass },
+                        (err, data) => {
+                            if (err) {
+                                console.log("Well, you failed");
+                            } else {
+                                console.log(data);
+                            }
                         }
-                    })
-                })
-                res.redirect('/dashboard');
+                    );
+                });
+                res.redirect("/dashboard");
             } else {
                 req.flash("flash", "Your old password is incorrect");
-                res.redirect('/settings')
+                res.redirect("/settings");
             }
         });
     });
-})
-
+});
 
 // Route that handles the posting of book data to the database
 app.post("/post-book", upload.single("image"), async (req, res, next) => {
@@ -170,12 +169,13 @@ app.post("/post-book", upload.single("image"), async (req, res, next) => {
                     data: req.file.filename,
                     contentType: req.file.mimetype,
                 },
-                date_added: new Date().toLocaleString("en-US", options),
             });
             const thisUser = await User.findOne({ username: username_login });
             const data = new Book(newBook);
             thisUser.book_array.push(data);
-            thisUser.wishlist_array.push(data)
+            if (req.body.wishlist === "Yes") {
+                thisUser.wishlist_array.push(data);
+            }
             newBook.save();
             await thisUser
                 .save()
@@ -210,7 +210,6 @@ app.post("/edit-book", upload.single("image"), async (req, res, next) => {
                 description: req.body.description,
                 genre: req.body.genre,
                 filename: req.file.filename,
-                in_wishlist: req.body.wishlist,
                 img: {
                     data: req.file.filename,
                     contentType: req.file.mimetype,
@@ -243,54 +242,53 @@ app.post("/edit-book", upload.single("image"), async (req, res, next) => {
         }
     }
 });
+// End of edit book
 
 // Adds a book to wishlist
 app.post("/addtowishlist", async (req, res, next) => {
-    const book = req.body.bookId
-    const thisBook = Book.findOneAndUpdate({ _id: book }, { in_wishlist: 'yes' }, (err, data) => {
-        if (err) {
-            console.log("Well, you failed")
-        } else {
-            console.log(data)
-        }
-    })
-    const thisUser = await User.findOne({ username: username_login });
-
-    res.redirect(`/book?id=${book}`)
+    try {
+        const thisBook = await Book.findByIdAndUpdate(req.body.bookId, { in_wishlist: "Yes" }, { new: true });
+        await User.updateOne(
+            { username: username_login, "book_array._id": req.body.bookId },
+            { $set: { "book_array.$": thisBook } }
+        );
+        await User.updateOne({ username: username_login }, { $push: { wishlist_array: thisBook } });
+    } catch (err) {
+        console.log(err);
+    }
+    res.redirect(`/book?id=${req.body.bookId}`);
 });
 
 // Removes a book from the wishlist
 app.post("/removefromwishlist", async (req, res, next) => {
-    const book = req.body.bookId
-    const thisBook = Book.findOneAndUpdate({ _id: book }, { in_wishlist: 'no' }, (err, data) => {
-        if (err) {
-            console.log("Well, you failed")
-        } else {
-            console.log(data)
-        }
-    })
-    res.redirect(`/book?id=${book}`)
+    try {
+        const thisBook = await Book.findByIdAndUpdate(req.body.bookId, { in_wishlist: "No" }, { new: true });
+        await User.updateOne(
+            { username: username_login, "book_array._id": req.body.bookId },
+            { $set: { "book_array.$": thisBook } }
+        );
+        await User.updateOne({ username: username_login }, { $pull: { wishlist_array: { _id: req.body.bookId } } });
+    } catch (err) {
+        console.log(err);
+    }
+    res.redirect(`/book?id=${req.body.bookId}`);
 });
-// Sorry for the bad coding, some redundant code here.
 
-// End of edit book
 // Posting a comment
 app.post("/post-comment", async (req, res, next) => {
-    if ((req.body.comments) === "") {
+    if (req.body.comments === "") {
         req.flash("flash", "Please enter a comment before submitting");
-        res.redirect(`/book?id=${req.body.bookId}`)
+        res.redirect(`/book?id=${req.body.bookId}`);
     } else {
         const comment = new Comment({
             made_by_user: req.body.made_by_user,
             header: req.body.header,
-            content: req.body.comments
-        })
-        console.log(comment)
+            content: req.body.comments,
+        });
         const thisBook = await Book.findOne({ _id: req.body.bookId });
-        console.log(req.body.bookId)
-        const data = new Comment(comment)
-        thisBook.comments.push(data)
-        comment.save()
+        const data = new Comment(comment);
+        thisBook.comments.push(data);
+        comment.save();
         await thisBook
             .save()
             .then((res) => {
@@ -300,9 +298,8 @@ app.post("/post-comment", async (req, res, next) => {
                 console.log("Error has occurred!");
             });
         res.redirect(`/book?id=${req.body.bookId}`);
-
     }
-})
+});
 
 app.listen(process.env.PORT || 3900 || "0.0.0.0", () => {
     console.log("running!");

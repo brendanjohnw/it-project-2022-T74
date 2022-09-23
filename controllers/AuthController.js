@@ -22,18 +22,18 @@ export const getSettings = async (req, res) => {
         ).lean();
         res.render("settings", {
             UserData: userData,
-            flash: req.flash("flash")
+            flash: req.flash("flash"),
         });
     } catch (err) {
         console.log(err);
     }
-}
+};
 
 export const getDashboard = async (req, res) => {
     try {
         console.log(username_login);
         const userData = await User.find(
-            { username: username_login},
+            { username: username_login },
             {
                 username: true,
                 book_array: true,
@@ -46,7 +46,6 @@ export const getDashboard = async (req, res) => {
         console.log(err);
     }
 };
-
 
 export const getAddbook = (req, res) => {
     res.render("addbook", { flash: req.flash("flash") });
@@ -73,7 +72,7 @@ export const getBook = async (req, res) => {
             {
                 username: true,
             }
-        ).lean()
+        ).lean();
         res.render("book", { BookData: bookData, UserData: userData, flash: req.flash("flash") });
     } catch (err) {
         console.log(err);
@@ -90,7 +89,6 @@ export const getEditbook = async (req, res) => {
                 author: true,
                 description: true,
                 genre: true,
-                in_wishlist: true,
                 filename: true,
             }
         ).lean();

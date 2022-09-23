@@ -58,7 +58,8 @@ export const checkAuthentication = (req, res, next) => {
 authRouter.get("/", getRegister);
 authRouter.get("/login", getLogin);
 authRouter.get("/dashboard", checkAuthentication, getDashboard);
-authRouter.get("/settings", checkAuthentication, getSettings)
+authRouter.get("/settings", checkAuthentication, getSettings);
+
 // Handle login
 authRouter.post(
     "/login",
@@ -102,7 +103,10 @@ authRouter.get("/editbook", checkAuthentication, getEditbook);
 // Route for deleting book
 authRouter.get("/deletebook", checkAuthentication, async (req, res) => {
     try {
-        await User.updateOne({ username: username_login }, { $pull: { book_array: { _id: req.query.id } } });
+        await User.updateOne(
+            { username: username_login },
+            { $pull: { book_array: { _id: req.query.id }, wishlist_array: { _id: req.query.id } } }
+        );
         await Book.findByIdAndDelete(req.query.id);
     } catch (err) {
         console.log(err);
