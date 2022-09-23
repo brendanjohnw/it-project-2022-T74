@@ -90,6 +90,7 @@ app.post("/register", async (req, res) => {
 
 import multer from "multer";
 import fs from "fs";
+
 // Provides disk storage for image uploads
 export const storage = multer.diskStorage({
     destination: (req, file, cb) => {
@@ -245,32 +246,33 @@ app.post("/edit-book", upload.single("image"), async (req, res, next) => {
 
 // Adds a book to wishlist
 app.post("/addtowishlist", async (req, res, next) => {
-    const bookId = req.body.bookId;
-    const thisBook = Book.findOneAndUpdate({ _id: bookId }, { in_wishlist: "Yes" }, (err, data) => {
-        if (err) {
-            console.log(err);
-        } else {
-            console.log(data);
-        }
-    });
-    const thisUser = await User.findOne({ username: username_login });
-
-    res.redirect(`/book?id=${bookId}`);
+    try {
+        const thisBook = await Book.findByIdAndUpdate(req.body.bookId, { in_wishlist: "Yes" }, { new: true });
+        await User.updateOne(
+            { username: username_login, "book_array._id": req.body.bookId },
+            { $set: { "book_array.$": thisBook } }
+        );
+        await User.updateOne({ username: username_login }, { $push: { wishlist_array: thisBook } });
+    } catch (err) {
+        console.log(err);
+    }
+    res.redirect(`/book?id=${req.body.bookId}`);
 });
 
 // Removes a book from the wishlist
 app.post("/removefromwishlist", async (req, res, next) => {
-    const book = req.body.bookId;
-    const thisBook = Book.findOneAndUpdate({ _id: book }, { in_wishlist: "no" }, (err, data) => {
-        if (err) {
-            console.log("Well, you failed");
-        } else {
-            console.log(data);
-        }
-    });
-    res.redirect(`/book?id=${book}`);
+    try {
+        const thisBook = await Book.findByIdAndUpdate(req.body.bookId, { in_wishlist: "No" }, { new: true });
+        await User.updateOne(
+            { username: username_login, "book_array._id": req.body.bookId },
+            { $set: { "book_array.$": thisBook } }
+        );
+        await User.updateOne({ username: username_login }, { $pull: { wishlist_array: { _id: req.body.bookId } } });
+    } catch (err) {
+        console.log(err);
+    }
+    res.redirect(`/book?id=${req.body.bookId}`);
 });
-// Sorry for the bad coding, some redundant code here.
 
 // Posting a comment
 app.post("/post-comment", async (req, res, next) => {
