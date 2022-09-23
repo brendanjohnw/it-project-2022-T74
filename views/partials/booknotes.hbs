@@ -29,16 +29,14 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Close</button>
                 {{#each BookData}}
-                <a class="btn btn-danger btn-sm " href="/deletebook?id={{_id}}">delete book</a>
+                <a class="btn btn-danger btn-sm " href="/deletebook?id={{_id}}">Delete book</a>
                 {{/each}}
             </div>
         </div>
     </div>
 </div>
 
-<!-- Note adding -->
 <div class="container py-5 h-40">
-
     <div class="row justify-content-center align-items-center h-100">
         <div class="col-12 col-lg-9 col-xl-7">
             <div class="card shadow card-registration" style="border-radius: 15px;">
@@ -72,12 +70,17 @@
                                         var container = document.getElementById("add-to-wish")
                                         var wishlist = "{{{ this.in_wishlist }}}"
                                         var bookID = "{{{this._id}}}"
-                                        container.innerHTML = wishlist
-                                        if (wishlist === "no") {
-                                            container.innerHTML = `<form method='post' action='/addtowishlist'> <input type = 'hidden' id = 'bookId' name = 'bookId' value = '${bookID}'><button type='submit' class='btn btn-light btn-sm'>add to wishlist</button></form>`
+                                        if (wishlist === "No") {
+                                            container.innerHTML = `<form method='post' action='/addtowishlist'> 
+                                            <input type = 'hidden' id = 'bookId' name = 'bookId' value = '${bookID}'>
+                                            <button type='submit' class='btn btn-light btn-sm' style='background-color:#4CAF50;border:none;color:white'>
+                                                Add to wishlist</button></form>`
                                         }
-                                        if (wishlist === 'yes') {
-                                            container.innerHTML = `<form method='post' action='/removefromwishlist'> <input type = 'hidden' id = 'bookId' name = 'bookId' value = '${bookID}'><button type='submit' class='btn btn-success btn-sm'> <strong>remove from wishlist<strong></button></form>`
+                                        if (wishlist === "Yes") {
+                                            container.innerHTML = `<form method='post' action='/removefromwishlist'> 
+                                            <input type = 'hidden' id = 'bookId' name = 'bookId' value = '${bookID}'>
+                                            <button type='submit' class='btn btn-success btn-sm' style='background-color:#4CAF50;border:none;color:white'> 
+                                                Remove from wishlist</button></form>`
                                         }
                                     </script>
 
@@ -86,6 +89,8 @@
                         </section>
                     </div>
                     {{/each}}
+
+                    <!-- Note adding -->
                     <div class="p-5 text-center">
                         <h2 align="center"> Add some notes 📝</h2>
                         <h4>Enter notes of your reading regularly!</h4>
