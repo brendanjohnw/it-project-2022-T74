@@ -19,6 +19,7 @@
     "bootstrap": "5.2",
     "cookie-parser": "^1.4.6",
     "cookieparser": "^0.1.0",
+    "date-fns": "^2.29.3",
     "debug": "^4.3.3",
     "express": "^4.17.3",
     "express-flash": "^0.0.2",
