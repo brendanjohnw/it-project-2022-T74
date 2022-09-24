@@ -118,3 +118,22 @@ authRouter.get("/deletebook", checkAuthentication, async (req, res) => {
     }
     res.redirect("/dashboard");
 });
+
+// Delete a comment
+authRouter.get("/delete-comment", checkAuthentication, async (req, res) => {
+    try {
+        await User.updateOne(
+            { username: username_login, "book_array._id": req.query.book },
+            { $pull: { "book_array.$.comments": { _id: req.query.comment } } }
+        );
+        await User.updateOne(
+            { username: username_login, "wishlist_array._id": req.query.book },
+            { $pull: { "wishlist_array.$.comments": { _id: req.query.comment } } }
+        );
+        await Book.updateOne({ _id: req.query.book }, { $pull: { comments: { _id: req.query.comment } } });
+        await Comment.findByIdAndDelete(req.query.comment);
+    } catch (err) {
+        console.log(err);
+    }
+    res.redirect(`/book?id=${req.query.book}`);
+});

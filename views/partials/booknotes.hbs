@@ -130,34 +130,33 @@
     <h2>Here are your notes! 📝</h2>
 </div>
 
-
 {{#each comments}}
 <div class="container">
-
-
     <div class="row justify-content-center align-items-center">
         <div class="col-xl-7">
             <div class="card shadow" style="border-radius: 15px;">
-
                 <div class="card-header">
-                    {{this.header}}
+                    <div style="width: 85%; float: left">
+                        {{this.header}}
+                    </div>
+                    <div style="width: 15%; float: right">
+                        {{this.date_created}}
+                    </div>
                 </div>
                 <div class="p-5 text-center">
                     {{this.content}}
                 </div>
                 <div class="card-footer">
-                    <p class="alias" align="center">
-                        <em>{{this.made_by_user}}</em>
+                    <p class="alias" style="width: 88%; float: left">
+                        Author: <em>{{this.made_by_user}}</em>
                     </p>
+                    <a class="btn btn-outline-danger" style="width: 12%; float: right" 
+                    href="/delete-comment?book={{../this._id}}&comment={{this._id}}">Delete</a>
                 </div>
-
             </div>
         </div>
     </div>
-
-
-
-</div> {{/each}}
-
+</div>
+{{/each}}
 {{/if}}
 {{/each}}

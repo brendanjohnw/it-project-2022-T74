@@ -1,7 +1,6 @@
 // Listen for requests
 import express from "express";
-import { create, engine } from "express-handlebars";
-import expressHbs from "express-handlebars";
+import { engine } from "express-handlebars";
 import { fileURLToPath } from "url";
 import path from "path";
 import { mainRouter } from "./routes/mainRouter.js";
@@ -297,6 +296,20 @@ app.post("/post-comment", async (req, res, next) => {
             .catch((err) => {
                 console.log("Error has occurred!");
             });
+        try {
+            await User.updateOne(
+                { username: username_login, "book_array._id": req.body.bookId },
+                { $set: { "book_array.$": thisBook } }
+            );
+            if (thisBook.in_wishlist === "Yes") {
+                await User.updateOne(
+                    { username: username_login, "wishlist_array._id": req.body.bookId },
+                    { $set: { "wishlist_array.$": thisBook } }
+                );
+            }
+        } catch (err) {
+            console.log(err);
+        }
         res.redirect(`/book?id=${req.body.bookId}`);
     }
 });
