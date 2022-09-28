@@ -17,7 +17,7 @@ In future versions, the ability to interact with other users will be implemented
 - Mark a book as part of a private or public library
 - Friends can write comments on each other's group
 - Recommend books to other users.
-- 
+
  ## Getting started
 
  1. Install nodejs >= 16.
