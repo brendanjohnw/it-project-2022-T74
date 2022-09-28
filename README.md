@@ -1,15 +1,7 @@
-# IT Project 2022 
-A collaborative project as part of the COMP30022: IT Project capstone subject
-
-# Features
-A lightweight, simple personal library store.
-
-- Add books to your library
-- You can upload pictures of your books, the title, genre and a brief description
-- Store comments for each of your books
-- label your book as part of your wishlist
-
- In future versions, the ability to interact with other users will be implemented, so stay tuned
+# Bookpedia 
+## About This Project: 
+Our group believes there is no existing application 100% dedicated to books. While people could use existing social platforms, or data storing tools to record their reading activity, we believe users would benefit from having a completely dedicated application.
+Solution: Bookpedia is a web application designed for users to record and track the books that they read, or would like to read. Bookpedia also enables users to connect with friends. Friends can track other friends reading habits, as well as provide comments, and recommendations
 
  ## Getting started
 
