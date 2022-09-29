@@ -11,6 +11,12 @@
 </head>
 
 <body>
+    {{#each flash}}
+    <div class="alert alert-danger" style="text-align:center">
+        <strong>{{this}}</strong>
+        <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+    </div>
+    {{/each}}
     <div class="card mb-3">
         <div class=" row g-0">
             {{#each BookData}}
@@ -21,44 +27,30 @@
             <div class="col-md-8">
                 <div class="card-body">
                     <h1> Edit Your Book and Save the Changes! </h1>
-
                     <div class="p-2">
                         <form action="/edit-book" id="edit-book" method="post" enctype="multipart/form-data">
                             <input type="hidden" id="bookId" name="bookId" value="{{_id}}">
-                            <input type="file" name="image" id="image" accept="image/jpeg, image/png, image/jpg">
-                            <br>
                             <br>
                             <div class="form-outline">
+                                <label for="image">Upload an image:</label>
+                                <input class="form-control form-control-sm" type="file" name="image" id="image" 
+                                accept="image/jpeg, image/png, image/jpg">
+                            </div>
+                            <br>
+                            <div class="form-outline">
+                                <label for="title"><span style="color:red;">*</span>Title:</label>
                                 <input type="text" name="title" id="title" class="form-control form-control-sm"
                                     value="{{title}}" />
                             </div>
                             <br>
                             <div class="form-outline">
+                                <label for="author"><span style="color:red;">*</span>Author:</label>
                                 <input type="text" name="author" id="author" class="form-control form-control-sm"
                                     value="{{author}}" />
                             </div>
                             <br>
-                            <div class="form-outline">
-                                <textarea name="description" id="description" class="form-control form-control-sm" 
-                                rows="5" cols="84" form="edit-book" oninput="countChars()">{{description}}</textarea>
-                                <p align="right"><font size="2"><span id="count">0</span>/150</font></p>
-                                <script>
-                                    var count = document.getElementById("description").value.length;
-                                    document.getElementById("count").innerHTML = `${count}`;
-                                    
-                                    function countChars() {
-                                        var numChars = document.getElementById("description").value.length;
-                                        if (numChars > 150) {
-                                            document.getElementById("count").style = "color:red";
-                                        } else {
-                                            document.getElementById("count").style = "";
-                                        }
-                                        document.getElementById("count").innerHTML = `${numChars}`;
-                                    }
-                                </script>
-                            </div>
                             <label for="genre">Choose a genre:</label>
-                            <select name="genre" id="genre">
+                            <select class="form-select form-select-sm" name="genre" id="genre">
                                 <option value="{{genre}}">{{genre}}</option>
                                 <option value="Fantasy">Fantasy</option>
                                 <option value="Science Fiction">Science Fiction</option>
@@ -76,13 +68,30 @@
                                 <option value="Self-help">Self-help</option>
                                 <option value="Travel">Travel</option>
                                 <option value="Other">Other</option>
-                            </select>
-                            {{/each}}
+                            </select> 
                             <br>
-                            {{#each flash}}
-                            <p class="alert">{{this}}</p>
-                            {{/each}}
+                            <div class="form-outline">
+                                <label for="description">Description:</label>
+                                <textarea name="description" id="description" class="form-control form-control-sm" 
+                                rows="3" form="edit-book" oninput="countChars()">{{description}}</textarea>
+                                <p align="right"><font size="2"><span id="count">0</span>/150</font></p>
+                                <script>
+                                    var count = document.getElementById("description").value.length;
+                                    document.getElementById("count").innerHTML = `${count}`;
+                                    
+                                    function countChars() {
+                                        var numChars = document.getElementById("description").value.length;
+                                        if (numChars > 150) {
+                                            document.getElementById("count").style = "color:red";
+                                        } else {
+                                            document.getElementById("count").style = "";
+                                        }
+                                        document.getElementById("count").innerHTML = `${numChars}`;
+                                    }
+                                </script>
+                            </div>
                             <br>
+                            {{/each}}
                             <button type="button" onclick="window.location='/dashboard';return false;"
                                 class="btn btn-dark btn-md redButton">Cancel</button>
                             <button type="submit" class="btn btn-primary btn-md">Save The Book!</button>
