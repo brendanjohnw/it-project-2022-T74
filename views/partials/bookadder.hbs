@@ -11,6 +11,12 @@
 </head>
 
 <body>
+    {{#each flash}}
+    <div class="alert alert-danger" style="text-align:center">
+        <strong>{{this}}</strong>
+        <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+    </div>
+    {{/each}}
     <div class="card mb-3">
         <div class="row g-0">
             <div class="col-md-4">
@@ -24,37 +30,26 @@
                         description of your book!</h5>
                     <div class="p-2">
                         <form action="/post-book" id="post-book" name="post-book" method="post" enctype="multipart/form-data">
-                            <input type="file" name="image" id="image" accept="image/jpeg, image/png, image/jpg">
-                            <br>
+                            <div class="form-outline">
+                                <label for="image"><span style="color:red;">*</span>Upload an image:</label>
+                                <input class="form-control form-control-sm" type="file" name="image" id="image" 
+                                accept="image/jpeg, image/png, image/jpg">
+                            </div>
                             <br>
                             <div class="form-outline">
+                                <label for="title"><span style="color:red;">*</span>Title:</label>
                                 <input type="text" name="title" id="title" class="form-control form-control-sm"
                                     placeholder='Title' />
                             </div>
                             <br>
                             <div class="form-outline">
+                                <label for="author"><span style="color:red;">*</span>Author:</label>
                                 <input type="text" name="author" id="author" class="form-control form-control-sm"
                                     placeholder='Author' />
                             </div>
-                            <br>
-                            <div class="form-outline">
-                                <textarea name="description" id="description" placeholder="Description (Max 150 Characters)"
-                                class="form-control form-control-sm" rows="5" cols="84" form="post-book" oninput="countChars()"></textarea>
-                                <p align="right"><font size="2"><span id="count">0</span>/150</font></p>
-                                <script>
-                                    function countChars() {
-                                        var numChars = document.getElementById("description").value.length;
-                                        if (numChars > 150) {
-                                            document.getElementById("count").style = "color:red";
-                                        } else {
-                                            document.getElementById("count").style = "";
-                                        }
-                                        document.getElementById("count").innerHTML = `${numChars}`;
-                                    }
-                                </script>
-                            </div>
-                            <label for="genre">Choose a genre:</label>
-                            <select name="genre" id="genre">
+                            <br>        
+                            <label for="genre"><span style="color:red;">*</span>Choose a genre:</label>
+                            <select class="form-select form-select-sm" name="genre" id="genre">
                                 <option value="Fantasy">Fantasy</option>
                                 <option value="Science Fiction">Science Fiction</option>
                                 <option value="Action Adventure">Action Adventure</option>
@@ -72,16 +67,30 @@
                                 <option value="Travel">Travel</option>
                                 <option value="Other">Other</option>
                             </select>
-                            <br><br>
-                            <label for="wishlist">Add to wishlist:</label>
-                            <select name="wishlist" id="wishlist">
+                            <br>
+                            <label for="wishlist"><span style="color:red;">*</span>Add to wishlist:</label>
+                            <select class="form-select form-select-sm" name="wishlist" id="wishlist">
                                 <option value="Yes">Yes</option>
                                 <option value="No">No</option>>
                             </select>
                             <br>
-                            {{#each flash}}
-                            <p class="alert">{{this}}</p>
-                            {{/each}}
+                            <div class="form-outline">
+                                <label for="description">Description:</label>
+                                <textarea name="description" id="description" placeholder="Description (Max 150 Characters)"
+                                class="form-control form-control-sm" rows="3" form="post-book" oninput="countChars()"></textarea>
+                                <p align="right"><font size="2"><span id="count">0</span>/150</font></p>
+                                <script>
+                                    function countChars() {
+                                        var numChars = document.getElementById("description").value.length;
+                                        if (numChars > 150) {
+                                            document.getElementById("count").style = "color:red";
+                                        } else {
+                                            document.getElementById("count").style = "";
+                                        }
+                                        document.getElementById("count").innerHTML = `${numChars}`;
+                                    }
+                                </script>
+                            </div>
                             <br>
                             <button type="button" onclick="window.location='/dashboard';return false;"
                                 class="btn btn-dark btn-md redButton">Cancel</button>

@@ -54,7 +54,7 @@ app.post("/register", async (req, res) => {
     bcrypt.hash(req.body.password, 10, function (err, hashedPass) {
         User.countDocuments({ username: username }, function (err, count) {
             if (count > 0) {
-                req.flash("flash", "User already exists");
+                req.flash("flash", "Username already taken");
                 res.redirect("/auth");
             } else if (err) {
                 res.json({
@@ -70,6 +70,7 @@ app.post("/register", async (req, res) => {
                         // res.redirect to the success page
                         logged_in_user = req.body.username;
                         console.log(logged_in_user);
+                        req.flash("success", "Congratulations! Your account has been created. Please log in");
                         res.redirect("/auth/login");
                     })
                     .catch((error) => {
@@ -219,7 +220,7 @@ app.post("/edit-book", upload.single("image"), async (req, res, next) => {
                 { username: username_login, "book_array._id": req.body.bookId },
                 { $set: { "book_array.$": thisBook } }
             );
-            res.redirect("/dashboard");
+            res.redirect("/book?id=".concat(req.body.bookId));
         }
     } catch (err) {
         if (err instanceof TypeError && err.message == "Cannot read properties of undefined (reading 'filename')") {
@@ -234,7 +235,7 @@ app.post("/edit-book", upload.single("image"), async (req, res, next) => {
                 { username: username_login, "book_array._id": req.body.bookId },
                 { $set: { "book_array.$": thisBook } }
             );
-            res.redirect("/dashboard");
+            res.redirect("/book?id=".concat(req.body.bookId));
         } else {
             console.log("An error has occurred!");
             console.log(err);
@@ -276,7 +277,7 @@ app.post("/removefromwishlist", async (req, res, next) => {
 // Posting a comment
 app.post("/post-comment", async (req, res, next) => {
     if (req.body.comments === "") {
-        req.flash("flash", "Please enter a comment before submitting");
+        req.flash("flash", "Please enter note content before submitting");
         res.redirect(`/book?id=${req.body.bookId}`);
     } else {
         const comment = new Comment({

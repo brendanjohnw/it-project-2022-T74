@@ -3,7 +3,7 @@ import { Book, User } from "../models/User.js";
 import { username_login } from "../passport.js";
 
 export const getLogin = (req, res) => {
-    res.render("login", { flash: req.flash("error"), title: "Login" });
+    res.render("login", { flash: req.flash("error"), title: "Login", message: req.flash("success") });
 };
 
 export const getRegister = (req, res) => {

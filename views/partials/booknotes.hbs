@@ -36,6 +36,12 @@
     </div>
 </div>
 
+{{#each flash}}
+<div class="alert alert-danger" style="text-align:center">
+    <strong>{{this}}</strong>
+    <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+</div>
+{{/each}}
 <div class="container py-5 h-40">
     <div class="row justify-content-center align-items-center h-100">
         <div class="col-12 col-lg-9 col-xl-7">
@@ -95,9 +101,6 @@
                         <h2 align="center"> Add some notes 📝</h2>
                         <h4>Enter notes of your reading regularly!</h4>
                         <br>
-                        {{#each flash}}
-                        <p class="alert">{{this}}</p>
-                        {{/each}}
                         <textarea name="header" id="header" rows="1" cols="50" form="formcomments"
                             placeholder="Enter a header for your note!"></textarea>
                         <textarea id="comments" name="comments" rows="8" cols="50" maxlength="2000" form="formcomments"
