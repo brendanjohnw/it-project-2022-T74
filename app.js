@@ -315,6 +315,36 @@ app.post("/post-comment", async (req, res, next) => {
     }
 });
 
+// For adding a friend
+
+app.post("/send-request", async (req, res) => {
+    const requestedFriend = req.body.requestedFriend;
+    const thisUser = await User.findOne({ username: username_login });
+    const requestedUser = await User.findOne({ _id: requestedFriend });
+    console.log(requestedUser)
+    console.log(thisUser)
+    if (thisUser && requestedUser) {
+        thisUser.friend_array_requests.push(requestedUser);
+        requestedUser.friend_array_pending.push(thisUser);
+        await requestedUser
+            .save()
+            .then((res) => {
+                console.log("Saved");
+            })
+            .catch((err) => {
+                console.log("Error has occurred!");
+            });
+    }
+    await thisUser
+        .save()
+        .then((res) => {
+            console.log("Saved");
+        })
+        .catch((err) => {
+            console.log(err);
+        });
+})
+
 app.listen(process.env.PORT || 3900 || "0.0.0.0", () => {
     console.log("running!");
 });

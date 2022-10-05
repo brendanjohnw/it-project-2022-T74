@@ -10,6 +10,27 @@ export const getRegister = (req, res) => {
     res.render("signup", { flash: req.flash("flash"), title: "Signup" });
 };
 
+export const getAddFriends = async (req, res) => {
+    try {
+        console.log(username_login)
+        const allUsers = await User.find(
+            { username: { $ne: username_login } }, {
+            _id: true,
+            username: true
+        }).lean();
+        const thisUser = await User.find(
+            { username: username_login }, {
+            _id: true,
+            username: true
+        }).lean();
+        res.render("findfriends", {
+            Users: allUsers,
+            ThisUser: thisUser
+        });
+    } catch (err) {
+        console.log(err);
+    }
+}
 export const getSettings = async (req, res) => {
     try {
         console.log(username_login);
