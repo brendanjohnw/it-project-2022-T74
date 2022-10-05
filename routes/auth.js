@@ -12,6 +12,7 @@ import {
     getBook,
     getEditbook,
     getSettings,
+    getFilter,
 } from "../controllers/AuthController.js";
 import { Book, User, Comment } from "../models/User.js";
 import { username_login } from "../passport.js";
@@ -137,3 +138,6 @@ authRouter.get("/delete-comment", checkAuthentication, async (req, res) => {
     }
     res.redirect(`/book?id=${req.query.book}`);
 });
+
+// Filter by a genre
+authRouter.get("/filter", checkAuthentication, getFilter);

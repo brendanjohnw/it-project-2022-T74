@@ -5,6 +5,7 @@
     <script crossorigin="anonymous" src="https://kit.fontawesome.com/2e58876b6d.js"></script>
 
     <link href="/public/css/styles.css" rel="stylesheet">
+    <link href="https://www.w3schools.com/w3css/4/w3.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
     <script src="/public/js/somecoolfunctions.js"></script>
@@ -26,8 +27,46 @@
         <div class="card shadow">
             <div class="card-header p-3">
                 {{#each UserData}}
-                📖 Here is your reading list <strong>{{this.username}}</strong>
+                Here is your reading list <strong>{{this.username}}</strong>
                 {{/each}}
+            </div>
+            <div class="container">
+                <div id="filter" style="float:right; position:relative; z-index:100" class="w3-dropdown-click">
+                    <button class="w3-button" onclick="showFilter()">
+                        <img src="/public/img/filter.png" width="25" height="auto" alt="Filter">
+                        Filter By Genre
+                        <i class="fa fa-caret-down"></i>
+                    </button>
+                    <div id="filter-detail" style="height:200px;overflow:auto;width:200px" class="w3-dropdown-content w3-bar-block w3-border">
+                        <a href="/dashboard" class="w3-bar-item w3-button">All</a>
+                        <a href="/filter?genre=Fantasy" class="w3-bar-item w3-button">Fantasy</a>
+                        <a href="/filter?genre=Science Fiction" class="w3-bar-item w3-button">Science Fiction</a>
+                        <a href="/filter?genre=Action Adventure" class="w3-bar-item w3-button">Action Adventure</a>
+                        <a href="/filter?genre=Mystery" class="w3-bar-item w3-button">Mystery</a>
+                        <a href="/filter?genre=Horror" class="w3-bar-item w3-button">Horror</a>
+                        <a href="/filter?genre=Historical Fiction" class="w3-bar-item w3-button">Historical Fiction</a>
+                        <a href="/filter?genre=Romance" class="w3-bar-item w3-button">Romance</a>
+                        <a href="/filter?genre=Contemporary Fiction" class="w3-bar-item w3-button">Contemporary Fiction</a>
+                        <a href="/filter?genre=Young Adult" class="w3-bar-item w3-button">Young Adult</a>
+                        <a href="/filter?genre=Children’s" class="w3-bar-item w3-button">Children’s</a>
+                        <a href="/filter?genre=Biography" class="w3-bar-item w3-button">Biography</a>
+                        <a href="/filter?genre=Food and Drink" class="w3-bar-item w3-button">Food and Drink</a>
+                        <a href="/filter?genre=Art and Photography" class="w3-bar-item w3-button">Art and Photography</a>
+                        <a href="/filter?genre=Self-help" class="w3-bar-item w3-button">Self-help</a>
+                        <a href="/filter?genre=Travel" class="w3-bar-item w3-button">Travel</a>
+                        <a href="/filter?genre=Other" class="w3-bar-item w3-button">Other</a>
+                    </div>
+                    <script>
+                        function showFilter() {
+                            var detail = document.getElementById("filter-detail");
+                            if (detail.className.indexOf("w3-show") == -1) { 
+                                detail.className += " w3-show";
+                            } else {
+                                detail.className = detail.className.replace(" w3-show", "");
+                            }
+                        }
+                    </script>
+                </div>
             </div>
             <div class="card-body">
                 <div class="container">
@@ -39,8 +78,8 @@
                         <!--ADD CLASSES HERE d-flex align-items-stretch-->
                         {{#each UserData}}
                         {{#each book_array}}
-                        <div class="col-lg-6 mb-3 d-flex align-items-stretch">
-                            <div class="card mb-3 shadow" style="max-width: 540px;">
+                        <div class="book-card col-lg-6 mb-3 d-flex align-items-stretch">
+                            <div class="card mb-3 shadow" style="max-width:540px;">
                                 <div class='container'>
                                     <div class="row g-0">
                                         <div class="col-md-4">
@@ -61,19 +100,14 @@
                                         </div>
                                     </div>
                                 </div>
-
                             </div>
                         </div>
                         {{/each}}
                         {{/each}}
-                        <!--ADD CLASSES HERE d-flex align-items-stretch-->
                     </div>
                 </div>
             </div>
-
         </div>
-    </div>
-
 
     </div>
 </body>

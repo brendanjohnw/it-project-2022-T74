@@ -97,3 +97,24 @@ export const getEditbook = async (req, res) => {
         console.log(err);
     }
 };
+
+export const getFilter = async (req, res) => {
+    try {
+        const userData = await User.aggregate([
+            { $match: { username: username_login } },
+            {
+                $project: {
+                    username: true,
+                    book_array: {
+                        $filter: { input: "$book_array", as: "book", cond: { $eq: ["$$book.genre", req.query.genre] } },
+                    },
+                },
+            },
+        ]);
+        res.render("dashboard", {
+            UserData: userData,
+        });
+    } catch (err) {
+        console.log(err);
+    }
+};
