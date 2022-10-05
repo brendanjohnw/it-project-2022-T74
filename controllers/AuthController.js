@@ -37,6 +37,7 @@ export const getDashboard = async (req, res) => {
             {
                 username: true,
                 book_array: true,
+                wishlist_array: true,
             }
         ).lean();
         res.render("dashboard", {
@@ -107,6 +108,13 @@ export const getFilter = async (req, res) => {
                     username: true,
                     book_array: {
                         $filter: { input: "$book_array", as: "book", cond: { $eq: ["$$book.genre", req.query.genre] } },
+                    },
+                    wishlist_array: {
+                        $filter: {
+                            input: "$wishlist_array",
+                            as: "book",
+                            cond: { $eq: ["$$book.genre", req.query.genre] },
+                        },
                     },
                 },
             },
