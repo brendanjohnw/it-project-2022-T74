@@ -13,19 +13,26 @@ export const getRegister = (req, res) => {
 export const getAddFriends = async (req, res) => {
     try {
         console.log(username_login)
-        const allUsers = await User.find(
-            { username: { $ne: username_login } }, {
-            _id: true,
-            username: true
-        }).lean();
         const thisUser = await User.find(
             { username: username_login }, {
             _id: true,
+            username: true,
+            friend_array_requests: true,
+            friend_array: true,
+            friend_array_pending: true,
+        }).lean();
+        console.log(thisUser[0].friend_array_requests)
+        const allUsers = await User.find(
+            { username: { $ne: username_login }, _id: { $nin: (thisUser[0].friend_array_requests).concat(thisUser[0].friend_array_pending) } }, {
+            _id: true,
             username: true
         }).lean();
+        console.log(allUsers)
+
         res.render("findfriends", {
             Users: allUsers,
-            ThisUser: thisUser
+            ThisUser: thisUser,
+            flash: req.flash("flash")
         });
     } catch (err) {
         console.log(err);
@@ -62,6 +69,7 @@ export const getDashboard = async (req, res) => {
         ).lean();
         res.render("dashboard", {
             UserData: userData,
+            flash: req.flash("flash")
         });
     } catch (err) {
         console.log(err);
@@ -94,7 +102,7 @@ export const getBook = async (req, res) => {
                 username: true,
             }
         ).lean();
-        res.render("book", { BookData: bookData, UserData: userData, flash: req.flash("flash") });
+        res.render("book", { BookData: bookData, UserData: userData, flash: req.flash("flash"), });
     } catch (err) {
         console.log(err);
     }

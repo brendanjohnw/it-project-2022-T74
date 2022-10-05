@@ -38,9 +38,9 @@ const userSchema = new Schema({
     password: { type: String },
     book_array: [bookSchema],
     wishlist_array: [bookSchema],
-    friend_array: [{type: mongoose.Schema.Types.ObjectId, ref: 'User'}],
-    friend_array_pending: [{type: mongoose.Schema.Types.ObjectId, ref: 'User'}],
-    friend_array_requests: [{type: mongoose.Schema.Types.ObjectId, ref: 'User'}]
+    friend_array: {type: [this]},
+    friend_array_pending: {type: [this]},
+    friend_array_requests: {type: [this]}
 
 });
 

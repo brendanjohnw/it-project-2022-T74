@@ -11,7 +11,14 @@
 </head>
 
 
+
 <body onload="startTime(), randomMessage()">
+    {{#each flash}}
+    <div class="alert alert-success" style="text-align:center">
+        <strong>{{this}}</strong>
+        <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+    </div>
+    {{/each}}
     <div class="container">
         <div class="p-5 text-center">
             <h1 id="welcome_msg">
