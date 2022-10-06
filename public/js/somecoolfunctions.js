@@ -13,6 +13,12 @@ function checkTime(i) {
 }
 
 function randomMessage() {
-    msg_list = ["Keep on reading! 📚", "Have a lovely day ☀️", "Isn't it a great day for a reading sesh?", "Stressed out? Pick up your favourite book!"]
-    document.getElementById("random-msg").innerHTML =  msg_list[Math.floor(Math.random() * msg_list.length)] ;
+    msg_list = ["Keep on reading! 📚",
+        "Have a lovely day ☀️",
+        "Isn't it a great day for a reading sesh?",
+        "Stressed out? Pick up your favourite book!",
+        "Reading is a novel idea.😁",
+        "I started reading a book about mazes—I got lost in it.😩",
+        "Do you comma here often?"]
+    document.getElementById("random-msg").innerHTML = msg_list[Math.floor(Math.random() * msg_list.length)];
 }

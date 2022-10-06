@@ -383,8 +383,8 @@ app.post("/accept-request", async (req, res) => {
         { multi: true }
     );
     req.flash("flash", `Request by ${requestedUser} accepted!`);
-    res.redirect("/dashboard");
-});
+    res.redirect('/findfriends')
+})
 
 app.post("/decline-request", async (req, res) => {});
 
