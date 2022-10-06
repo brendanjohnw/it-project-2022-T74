@@ -363,18 +363,23 @@ app.post("/accept-request", async (req, res) => {
     // add requested user to the friend array of the current user and the user who requested (Works!)
     const friend_curr_user = new User(currentUser)
     const friend_req_user = new User(friendUser)
-    console.log(friend_curr_user)
-    console.log(friend_req_user)
     await User.findOneAndUpdate({ username: username_login }, { $push: { friend_array: friend_req_user } })
     await User.findOneAndUpdate({ username: requestedUser }, { $push: { friend_array: friend_curr_user } })
     // remove requested user from requests in currentUser (Does not work)
-    await User.findOneAndUpdate({ username: username_login }, { $pull: { friend_array_requests: { username: friend_req_user.username } } }, { multi: true })
+    await User.findOneAndUpdate({ username: username_login }, { $pull: { friend_array_pending: { username: friend_req_user.username } } }, { multi: true })
     // remove pending user from pending requests in friendUer (Does not work)
-    await User.findOneAndUpdate({ username: requestedUser }, { $pull: { friend_array_pending: { username: friend_curr_user.username } } }, { multi: true })
+    await User.findOneAndUpdate({ username: requestedUser }, { $pull: { friend_array_requests: { username: friend_curr_user.username } } }, { multi: true })
     req.flash("flash", `Request by ${requestedUser} accepted!`);
     res.redirect('/dashboard')
 })
 
+app.post("/decline-request", async (req, res) => {
+
+})
+
+app.post("/remove-friend", async (req, res)=> {
+
+})
 
 app.listen(process.env.PORT || 3900 || "0.0.0.0", () => {
     console.log("running!");
