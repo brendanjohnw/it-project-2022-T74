@@ -370,7 +370,7 @@ app.post("/accept-request", async (req, res) => {
     // remove pending user from pending requests in friendUer (Does not work)
     await User.findOneAndUpdate({ username: requestedUser }, { $pull: { friend_array_requests: { username: friend_curr_user.username } } }, { multi: true })
     req.flash("flash", `Request by ${requestedUser} accepted!`);
-    res.redirect('/dashboard')
+    res.redirect('/findfriends')
 })
 
 app.post("/decline-request", async (req, res) => {

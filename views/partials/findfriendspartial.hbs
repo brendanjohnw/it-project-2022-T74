@@ -9,6 +9,12 @@
         integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
     <script src="/public/js/somecoolfunctions.js"></script>
 </head>
+{{#each flash}}
+<div class="alert alert-success" style="text-align:center">
+    <strong>{{this}}</strong>
+    <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+</div>
+{{/each}}
 
 <body>
     <div class="container">
@@ -27,6 +33,8 @@
                 {{/if}}
             </div>
         </div>
+    </div>
+    <div class="container">
         <div class="card shadow">
             <div class="card-header">
                 Your friend requests
@@ -41,6 +49,8 @@
                 {{/if}}
             </div>
         </div>
+    </div>
+    <div class="container">
         <div class="card shadow">
             <div class="card-header">
                 Pending Friend Requests
@@ -67,6 +77,8 @@
                 {{/if}}
             </div>
         </div>
+    </div>
+    <div class="container">
         {{/each}}
         {{#each ThisUser}}
         <input type="hidden" name="currentUser" id="currentUser" value={{_id}}>
@@ -84,4 +96,6 @@
         </div>
         {{/each}}
     </div>
+
+
 </body>
