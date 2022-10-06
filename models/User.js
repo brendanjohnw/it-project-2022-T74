@@ -30,12 +30,20 @@ const bookSchema = new Schema({
 
 export const Book = mongoose.model("Book", bookSchema);
 
+
+
+
 const userSchema = new Schema({
     username: { type: String },
     password: { type: String },
     book_array: [bookSchema],
     wishlist_array: [bookSchema],
+    friend_array: {type: [this]},
+    friend_array_pending: {type: [this]},
+    friend_array_requests: {type: [this]}
+
 });
 
 userSchema.plugin(passportLocalMongoose);
+
 export const User = mongoose.model("User", userSchema);

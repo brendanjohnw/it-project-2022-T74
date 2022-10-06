@@ -12,6 +12,7 @@ import {
     getBook,
     getEditbook,
     getSettings,
+    getAddFriends,
     getFilter,
 } from "../controllers/AuthController.js";
 import { Book, User, Comment } from "../models/User.js";
@@ -100,6 +101,10 @@ authRouter.get("/book", checkAuthentication, getBook);
 // Route for editing book
 
 authRouter.get("/editbook", checkAuthentication, getEditbook);
+
+// Route for finding friends
+
+authRouter.get("/findfriends", checkAuthentication, getAddFriends);
 
 // Route for deleting book
 authRouter.get("/deletebook", checkAuthentication, async (req, res) => {

@@ -1,0 +1,87 @@
+<script src="/public/js/bootstrap.js"></script>
+<!-- HTML for the dashboard. This displays brief information about a user's books -->
+
+<head>
+    <script crossorigin="anonymous" src="https://kit.fontawesome.com/2e58876b6d.js"></script>
+
+    <link href="/public/css/styles.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+    <script src="/public/js/somecoolfunctions.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        {{#each ThisUser}}
+        <div class="card shadow">
+            <div class="card-header">
+                Your Friends
+            </div>
+            <div class="card-body">
+                {{#if friend_array}}
+                {{#each friend_array}}
+                {{username}}
+                {{/each}}
+                {{else}}
+                <div class="p-3 text-center">You have no friends</div>
+                {{/if}}
+            </div>
+        </div>
+        <div class="card shadow">
+            <div class="card-header">
+                Your friend requests
+            </div>
+            <div class="card-body">
+                {{#if friend_array_requests}}
+                {{#each friend_array_requests}}
+                {{username}}
+                {{/each}}
+                {{else}}
+                You have not sent any friend requests yet!
+                {{/if}}
+            </div>
+        </div>
+        <div class="card shadow">
+            <div class="card-header">
+                Pending Friend Requests
+            </div>
+            <div class="card-body">
+                {{#if friend_array_pending}}
+                {{#each friend_array_pending}}
+                {{username}}
+                <form method="post" action="accept-request">
+                    <input type="hidden" name="userrequestaccept" id="userrequestaccept" value={{username}}>
+                    <input type="hidden" name="userIdrequester" id="userIdrequester" value={{_id}}>
+
+                    <button class="btn-primary">Accept Request</button>
+                </form>
+                <form method="post" action="decline-request">
+                    <input type="hidden" name="userrequestdecline" id="userrequestdecline" value={{username}}>
+                    <input type="hidden" name="userIdrequester" id="userIdrequester" value={{_id}}>
+                    <button class="btn-primary">Decline Request</button>
+                </form>
+
+                {{/each}}
+                {{else}}
+                No one has sent any requests to you yet!
+                {{/if}}
+            </div>
+        </div>
+        {{/each}}
+        {{#each ThisUser}}
+        <input type="hidden" name="currentUser" id="currentUser" value={{_id}}>
+        {{/each}}
+        {{#each Users}}
+        <div class="row">
+            <div class="p-3 text-center">
+                {{username}}
+                <form method="post" action="/send-request">
+
+                    <input type="hidden" name="requestedFriend" id="requestedfriend" value={{_id}}>
+                    <button class="btn-primary">Add Friend</button>
+                </form>
+            </div>
+        </div>
+        {{/each}}
+    </div>
+</body>

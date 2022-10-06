@@ -14,6 +14,7 @@ import bcrypt from "bcryptjs";
 import { username_login } from "./passport.js";
 import passport from "passport";
 import LocalStrategy from "passport-local";
+import { ObjectId } from "mongodb";
 
 import passportLocalMongoose from "passport-local-mongoose";
 
@@ -314,6 +315,71 @@ app.post("/post-comment", async (req, res, next) => {
         res.redirect(`/book?id=${req.body.bookId}`);
     }
 });
+
+// For adding a friend
+
+app.post("/send-request", async (req, res) => {
+    const requestedFriend = req.body.requestedFriend;
+    const thisUser = await User.findOne({ username: username_login });
+    const requestedUser = await User.findOne({ _id: requestedFriend });
+    const theUser = new User(requestedUser)
+    const meUser = new User(thisUser)
+    console.log(theUser)
+    console.log(meUser)
+    if (thisUser && requestedUser) {
+        thisUser.friend_array_requests.push(theUser);
+        requestedUser.friend_array_pending.push(meUser);
+        await requestedUser
+            .save()
+            .then((res) => {
+                console.log("Saved");
+            })
+            .catch((err) => {
+                console.log("Error has occurred!");
+            });
+    }
+    await thisUser
+        .save()
+        .then((res) => {
+            console.log("Saved");
+        })
+        .catch((err) => {
+            console.log(err);
+        });
+    req.flash("flash", `Request sent to ${requestedUser.username}!`);
+    res.redirect('/dashboard')
+
+})
+
+app.post("/accept-request", async (req, res) => {
+    // find user that requested
+    const requestedUser = req.body.userrequestaccept
+    const friendUser = await User.findOne({ username: requestedUser });
+    // find current user
+    const currentUser = await User.findOne({ username: username_login });
+    console.log(req.body.userrequestaccept)
+    console.log(username_login)
+
+    // add requested user to the friend array of the current user and the user who requested (Works!)
+    const friend_curr_user = new User(currentUser)
+    const friend_req_user = new User(friendUser)
+    await User.findOneAndUpdate({ username: username_login }, { $push: { friend_array: friend_req_user } })
+    await User.findOneAndUpdate({ username: requestedUser }, { $push: { friend_array: friend_curr_user } })
+    // remove requested user from requests in currentUser (Does not work)
+    await User.findOneAndUpdate({ username: username_login }, { $pull: { friend_array_pending: { username: friend_req_user.username } } }, { multi: true })
+    // remove pending user from pending requests in friendUer (Does not work)
+    await User.findOneAndUpdate({ username: requestedUser }, { $pull: { friend_array_requests: { username: friend_curr_user.username } } }, { multi: true })
+    req.flash("flash", `Request by ${requestedUser} accepted!`);
+    res.redirect('/dashboard')
+})
+
+app.post("/decline-request", async (req, res) => {
+
+})
+
+app.post("/remove-friend", async (req, res)=> {
+
+})
 
 app.listen(process.env.PORT || 3900 || "0.0.0.0", () => {
     console.log("running!");
