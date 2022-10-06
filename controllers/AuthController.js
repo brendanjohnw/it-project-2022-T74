@@ -65,6 +65,7 @@ export const getDashboard = async (req, res) => {
             {
                 username: true,
                 book_array: true,
+                wishlist_array: true,
             }
         ).lean();
         res.render("dashboard", {
@@ -122,6 +123,34 @@ export const getEditbook = async (req, res) => {
             }
         ).lean();
         res.render("editbook", { BookData: bookData, flash: req.flash("flash") });
+    } catch (err) {
+        console.log(err);
+    }
+};
+
+export const getFilter = async (req, res) => {
+    try {
+        const userData = await User.aggregate([
+            { $match: { username: username_login } },
+            {
+                $project: {
+                    username: true,
+                    book_array: {
+                        $filter: { input: "$book_array", as: "book", cond: { $eq: ["$$book.genre", req.query.genre] } },
+                    },
+                    wishlist_array: {
+                        $filter: {
+                            input: "$wishlist_array",
+                            as: "book",
+                            cond: { $eq: ["$$book.genre", req.query.genre] },
+                        },
+                    },
+                },
+            },
+        ]);
+        res.render("dashboard", {
+            UserData: userData,
+        });
     } catch (err) {
         console.log(err);
     }
