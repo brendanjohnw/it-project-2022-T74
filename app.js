@@ -144,12 +144,6 @@ app.post("/changepassword", async (req, res, next) => {
 
 // Route that handles the posting of book data to the database
 app.post("/post-book", upload.single("image"), async (req, res, next) => {
-    const options = {
-        weekday: "long",
-        year: "numeric",
-        month: "long",
-        day: "numeric",
-    };
     try {
         if (req.body.title === "" || req.body.author === "") {
             req.flash("flash", "Please enter title and author!");
@@ -217,10 +211,16 @@ app.post("/edit-book", upload.single("image"), async (req, res, next) => {
                 },
             };
             const thisBook = await Book.findByIdAndUpdate(req.body.bookId, update, { new: true });
-            const thisUser = await User.updateOne(
+            await User.updateOne(
                 { username: username_login, "book_array._id": req.body.bookId },
                 { $set: { "book_array.$": thisBook } }
             );
+            if (thisBook.in_wishlist === "Yes") {
+                await User.updateOne(
+                    { username: username_login, "wishlist_array._id": req.body.bookId },
+                    { $set: { "wishlist_array.$": thisBook } }
+                );
+            }
             res.redirect("/book?id=".concat(req.body.bookId));
         }
     } catch (err) {
@@ -232,10 +232,16 @@ app.post("/edit-book", upload.single("image"), async (req, res, next) => {
                 genre: req.body.genre,
             };
             const thisBook = await Book.findByIdAndUpdate(req.body.bookId, update, { new: true });
-            const thisUser = await User.updateOne(
+            await User.updateOne(
                 { username: username_login, "book_array._id": req.body.bookId },
                 { $set: { "book_array.$": thisBook } }
             );
+            if (thisBook.in_wishlist === "Yes") {
+                await User.updateOne(
+                    { username: username_login, "wishlist_array._id": req.body.bookId },
+                    { $set: { "wishlist_array.$": thisBook } }
+                );
+            }
             res.redirect("/book?id=".concat(req.body.bookId));
         } else {
             console.log("An error has occurred!");
@@ -322,10 +328,10 @@ app.post("/send-request", async (req, res) => {
     const requestedFriend = req.body.requestedFriend;
     const thisUser = await User.findOne({ username: username_login });
     const requestedUser = await User.findOne({ _id: requestedFriend });
-    const theUser = new User(requestedUser)
-    const meUser = new User(thisUser)
-    console.log(theUser)
-    console.log(meUser)
+    const theUser = new User(requestedUser);
+    const meUser = new User(thisUser);
+    console.log(theUser);
+    console.log(meUser);
     if (thisUser && requestedUser) {
         thisUser.friend_array_requests.push(theUser);
         requestedUser.friend_array_pending.push(meUser);
@@ -351,24 +357,33 @@ app.post("/send-request", async (req, res) => {
 
 })
 
+
 app.post("/accept-request", async (req, res) => {
     // find user that requested
-    const requestedUser = req.body.userrequestaccept
+    const requestedUser = req.body.userrequestaccept;
     const friendUser = await User.findOne({ username: requestedUser });
     // find current user
     const currentUser = await User.findOne({ username: username_login });
-    console.log(req.body.userrequestaccept)
-    console.log(username_login)
+    console.log(req.body.userrequestaccept);
+    console.log(username_login);
 
     // add requested user to the friend array of the current user and the user who requested (Works!)
-    const friend_curr_user = new User(currentUser)
-    const friend_req_user = new User(friendUser)
-    await User.findOneAndUpdate({ username: username_login }, { $push: { friend_array: friend_req_user } })
-    await User.findOneAndUpdate({ username: requestedUser }, { $push: { friend_array: friend_curr_user } })
+    const friend_curr_user = new User(currentUser);
+    const friend_req_user = new User(friendUser);
+    await User.findOneAndUpdate({ username: username_login }, { $push: { friend_array: friend_req_user } });
+    await User.findOneAndUpdate({ username: requestedUser }, { $push: { friend_array: friend_curr_user } });
     // remove requested user from requests in currentUser (Does not work)
-    await User.findOneAndUpdate({ username: username_login }, { $pull: { friend_array_pending: { username: friend_req_user.username } } }, { multi: true })
+    await User.findOneAndUpdate(
+        { username: username_login },
+        { $pull: { friend_array_pending: { username: friend_req_user.username } } },
+        { multi: true }
+    );
     // remove pending user from pending requests in friendUer (Does not work)
-    await User.findOneAndUpdate({ username: requestedUser }, { $pull: { friend_array_requests: { username: friend_curr_user.username } } }, { multi: true })
+    await User.findOneAndUpdate(
+        { username: requestedUser },
+        { $pull: { friend_array_requests: { username: friend_curr_user.username } } },
+        { multi: true }
+    );
     req.flash("flash", `Request by ${requestedUser} accepted!`);
     res.redirect('/findfriends')
 })
