@@ -27,6 +27,11 @@
                 {{#if friend_array}}
                 {{#each friend_array}}
                 {{username}}
+                <form method="post" action="/remove-friend">
+
+                    <input type="hidden" name="friend" id="friend" value={{_id}}>
+                    <button class="btn-primary">Remove Friend</button>
+                </form>
                 {{/each}}
                 {{else}}
                 <div class="p-3 text-center">You have no friends</div>
@@ -42,6 +47,10 @@
             <div class="card-body">
                 {{#if friend_array_requests}}
                 {{#each friend_array_requests}}
+                <form method="post" action="/cancel-request">
+                    <input type="hidden" name="friendrequest" id="friendrequest" value={{username}}>
+                    <button class="btn-primary">Cancel Request</button>
+                </form>
                 {{username}}
                 {{/each}}
                 {{else}}
@@ -88,7 +97,6 @@
             <div class="p-3 text-center">
                 {{username}}
                 <form method="post" action="/send-request">
-
                     <input type="hidden" name="requestedFriend" id="requestedfriend" value={{_id}}>
                     <button class="btn-primary">Add Friend</button>
                 </form>

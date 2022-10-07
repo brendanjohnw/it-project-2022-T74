@@ -23,7 +23,7 @@ export const getAddFriends = async (req, res) => {
         }).lean();
         console.log(thisUser[0].friend_array_requests)
         const allUsers = await User.find(
-            { username: { $ne: username_login }, _id: { $nin: ((thisUser[0].friend_array_requests).concat(thisUser[0].friend_array_pending)).concat(thisUser[0].friend_array) } }, {
+            { username: { $ne: username_login }, _id: { $nin: ((thisUser[0].friend_array_pending).concat(thisUser[0].friend_array_requests)).concat(thisUser[0].friend_array) } }, {
             _id: true,
             username: true
         }).lean();
