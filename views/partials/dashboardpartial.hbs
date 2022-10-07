@@ -31,6 +31,7 @@
                 <h3 id="random-msg"></h3>
             </em>
         </div>
+
         <!-- Tabs for displaying library or wishlist -->
         <ul class="nav nav-tabs" role="tablist">
             <li class="nav-item" role="presentation">
@@ -42,33 +43,48 @@
         </ul>
         <script>
             function openTab(evt, tabName) {
-                var tabcontent = document.getElementsByClassName("tab-content");
-                for (var i = 0; i < tabcontent.length; i++) {
-                    tabcontent[i].style.display = "none";
-                }
                 var navlinks = document.getElementsByClassName("nav-link");
                 for (var i = 0; i < navlinks.length; i++) {
                     navlinks[i].className = navlinks[i].className.replace(" active", "");
                 }
-                document.getElementById(tabName).style.display = "";
+                var tabcontent = document.getElementsByClassName("tab-content");
+                for (i = 0; i < tabcontent.length; i++) {
+                    tabcontent[i].style.display = "none";
+                }
+                var tabmsg = document.getElementsByClassName("tab-msg");
+                for (i = 0; i < tabmsg.length; i++) {
+                    tabmsg[i].style.display = "none";
+                }
                 evt.currentTarget.className += " active";
+                document.getElementById(tabName).style.display = "";
+                document.getElementById(`msg-${tabName}`).style.display = "";
             }
         </script>
-        <!-- The library tab-->
-        <div class="tab-content card shadow" id="library">
+          
+        <div class="card shadow">
             <div class="card-header p-3">
                 <div class="container-sm">
-                    <div id="msg" style="float:left; margin:0 auto; width:50%; padding:10px;" text-align="center">
-                        {{#each UserData}}
+                    {{#each UserData}}
+                    <div class="tab-msg" id="msg-library" style="float:left; margin:0 auto; width:50%; padding:10px;">
                         📖 Here is your reading list <strong>{{this.username}}</strong>
-                        {{/each}}
                     </div>
+                    <div class="tab-msg" id="msg-wishlist" style="float:left; margin:0 auto; width:50%; padding:10px; display:none">
+                        ❤️ Here is your wishlist <strong>{{this.username}}</strong>
+                    </div>
+                    {{/each}}
+                    <!-- Filter -->
                     <div id="filter" style="float:right; position:relative; z-index:100" class="w3-dropdown-click">
-                        <button class="w3-button" onclick="showFilter()">
+                        <button id="select-filter" class="w3-button" onclick="showFilter()">
                             <img src="/public/img/filter.png" width="25" height="auto" alt="Filter">
                             Filter By Genre
                             <i class="fa fa-caret-down"></i>
                         </button>
+                        {{#if SelectedGenre}}
+                        <script>
+                            var text = " Filter: <b><em>{{{SelectedGenre}}}</em></b> ";
+                            document.getElementById("select-filter").innerHTML = `<img src="/public/img/filter.png" width="25" height="auto" alt="Filter">${text}<i class="fa fa-caret-down"></i>`;
+                        </script>
+                        {{/if}}
                         <div id="filter-detail" style="height:200px;overflow:auto;width:200px" class="w3-dropdown-content w3-bar-block w3-border">
                             <a href="/dashboard" class="w3-bar-item w3-button">All</a>
                             <a href="/filter?genre=Fantasy" class="w3-bar-item w3-button">Fantasy</a>
@@ -101,14 +117,13 @@
                     </div>
                 </div>
             </div>
-            <div class="card-body">
+            <!-- The library tab-->
+            <div class="tab-content card-body" id="library">
                 <div class="container">
                     <div class="row">
-                        <!--ADD CLASSES HERE d-flex align-items-stretch-->
                         <div class="col-lg-6 mb-3 d-flex align-items-stretch">
                             {{>addbookcard}}
                         </div>
-                        <!--ADD CLASSES HERE d-flex align-items-stretch-->
                         {{#each UserData}}
                         {{#each book_array}}
                         <div class="book-card col-lg-6 mb-3 d-flex align-items-stretch">
@@ -140,26 +155,13 @@
                     </div>
                 </div>
             </div>
-        </div>
-        <!-- The wishlist tab -->
-        <div class="tab-content card shadow" id="wishlist" style="display: none;">
-            <div class="card-header p-3">
-                <div class="container-sm">
-                    <div id="msg" style="float:left; margin:0 auto; width:50%; padding:10px;" text-align="center">
-                        {{#each UserData}}
-                        ❤️ Here is your wishlist <strong>{{this.username}}</strong>
-                        {{/each}}
-                    </div>
-                </div>
-            </div>
-            <div class="card-body">
+            <!-- The wishlist tab -->
+            <div class="tab-content card-body" id="wishlist" style="display: none;">
                 <div class="container">
                     <div class="row">
-                        <!--ADD CLASSES HERE d-flex align-items-stretch-->
                         <div class="col-lg-6 mb-3 d-flex align-items-stretch">
                             {{>addbookcard}}
                         </div>
-                        <!--ADD CLASSES HERE d-flex align-items-stretch-->
                         {{#each UserData}}
                         {{#each wishlist_array}}
                         <div class="book-card col-lg-6 mb-3 d-flex align-items-stretch">
