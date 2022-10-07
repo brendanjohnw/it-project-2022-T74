@@ -66,6 +66,7 @@ export const getDashboard = async (req, res) => {
                 username: true,
                 book_array: true,
                 wishlist_array: true,
+                recommendations: true
             }
         ).lean();
         res.render("dashboard", {
@@ -101,6 +102,8 @@ export const getBook = async (req, res) => {
             { username: username_login },
             {
                 username: true,
+                friend_array: true,
+                
             }
         ).lean();
         res.render("book", { BookData: bookData, UserData: userData, flash: req.flash("flash"), });

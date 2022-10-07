@@ -427,6 +427,20 @@ app.post("/cancel-request", async (req, res) => {
     req.flash("flash", `Request to ${request} deleted!`);
     res.redirect('/findfriends')
 })
+
+// Recommendations
+app.post("/recommend-book", async (req, res) => {
+    const to_friend = req.body.to_friend // username
+    const recommended_book = req.body.book_id
+    const book = await Book.findOne({ _id: recommended_book });
+    console.log(recommended_book)
+    var recommendedBook = new Book(book)
+    // push book to friend's recommendation array
+    await User.findOneAndUpdate({username: to_friend}, {$push: {recommendations: recommendedBook}} )
+    req.flash("flash", `Recommended to ${to_friend}!`);
+    res.redirect(`/book?id=${recommended_book}`)
+    
+})
 app.listen(process.env.PORT || 3900 || "0.0.0.0", () => {
     console.log("running!");
 });
