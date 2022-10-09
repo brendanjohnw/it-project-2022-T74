@@ -42,7 +42,7 @@
             </script>
             {{/each}}
             <br>
-            <button type="submit" class="btn btn-primary">Add Friend</button>
+            <button id="add-friend" type="submit" class="btn btn-primary">Add Friend</button>
         </form>
     </div>
 
@@ -129,7 +129,7 @@
                     {{username}}
                     <form method="post" action="/remove-friend">
                         <input type="hidden" name="friendName" id="friendName" value={{username}}>
-                        <button class="btn-primary">Remove Friend</button>
+                        <button id="remove-friend" class="btn-primary">Remove Friend</button>
                     </form>
                 </div>
                 {{/each}}
@@ -144,7 +144,7 @@
                 {{username}}
                 <form method="post" action="/cancel-request">
                     <input type="hidden" name="receiverName" id="receiverName" value={{username}}>
-                    <button class="btn-primary">Cancel Request</button>
+                    <button id="cancel-request" class="btn-primary">Cancel Request</button>
                 </form>
                 {{/each}}
                 {{else}}
@@ -158,11 +158,11 @@
                 {{username}}
                 <form method="post" action="/accept-request">
                     <input type="hidden" name="requesterName" id="requesterName" value={{username}}>
-                    <button class="btn-primary">Accept Request</button>
+                    <button id="accept-request" class="btn-primary">Accept Request</button>
                 </form>
                 <form method="post" action="/decline-request">
                     <input type="hidden" name="requesterName" id="requesterName" value={{username}}>
-                    <button class="btn-primary">Decline Request</button>
+                    <button id="decline-request" class="btn-primary">Decline Request</button>
                 </form>
                 {{/each}}
                 {{else}}
