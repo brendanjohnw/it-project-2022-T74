@@ -166,4 +166,35 @@ body {
     text-align: center;
 }
 
+.friend-list {
+    display: block;
+    margin: auto;
+    padding: 0;
+    width: 70%;
+    height: 100%;
+    background: #EEE;
+    list-style-type: none;
+}
+  
+.friend {
+    width: auto;
+    height: 60px;
+    background: #EEE;
+    border-bottom: 1px solid #DDD;
+    display: flex;
+    align-items: center;
+}
+  
+.friend img {
+    width: 45px;
+    height: 45px;
+    object-fit: cover;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+  
+.friend .name {
+    font-size: 16px;
+}
+
 /* Fun stuff */
