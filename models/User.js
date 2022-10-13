@@ -38,6 +38,10 @@ const userSchema = new Schema({
     friend_array_pending: {type: [this]},
     friend_array_requests: {type: [this]},
     recommendations: [bookSchema]
+<<<<<<< HEAD
+=======
+
+>>>>>>> fc6016fa6fc299db0a4858d0b46e5f327dc73dd0
 });
 
 userSchema.plugin(passportLocalMongoose);
