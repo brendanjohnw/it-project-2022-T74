@@ -425,6 +425,7 @@ app.post("/remove-friend", async (req, res) => {
 });
 
 app.post("/cancel-request", async (req, res) => {
+<<<<<<< HEAD
     await User.findOneAndUpdate(
         { username: username_login },
         { $pull: { friend_array_requests: { username: req.body.receiverName } } },
@@ -438,7 +439,6 @@ app.post("/cancel-request", async (req, res) => {
     req.flash("flash", `Request to '${req.body.receiverName}' cancelled!`);
     res.redirect("/findfriends");
 });
-
 app.listen(process.env.PORT || 3900 || "0.0.0.0", () => {
     console.log("running!");
 });

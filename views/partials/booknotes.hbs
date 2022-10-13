@@ -9,7 +9,6 @@
         integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
 
 </head>
-
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
     aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -37,7 +36,7 @@
 </div>
 
 {{#each flash}}
-<div class="alert alert-danger" style="text-align:center">
+<div class="alert alert-success" style="text-align:center">
     <strong>{{this}}</strong>
     <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
 </div>
@@ -95,6 +94,29 @@
                         </section>
                     </div>
                     {{/each}}
+
+                    <div class="card-body">
+                        <div class="p-5 text-center">
+                            <h2 align="center">Recommend this book to a friend 🙆‍♂️</h2>
+
+
+                            <form method="post" action="/recommend-book">
+                                {{#each UserData}}
+                                {{#each friend_array}}
+                                {{username}}
+                                <input type="hidden" name="to_friend" id="to_friend" value={{username}}>
+                                {{/each}}
+                                {{/each}}
+                                {{#each BookData}}
+                                <input type="hidden" name="book_id" id="book_id" value={{_id}}>
+                                {{/each}}
+
+
+                                <button class="btn-primary">recommend</button>
+                            </form>
+
+                        </div>
+                    </div>
 
                     <!-- Note adding -->
                     <div class="p-5 text-center">

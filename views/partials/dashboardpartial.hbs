@@ -7,7 +7,7 @@
     <link href="/public/css/styles.css" rel="stylesheet">
     <link href="https://www.w3schools.com/w3css/4/w3.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous"> 
+        integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
     <script src="/public/js/somecoolfunctions.js"></script>
 </head>
 
@@ -40,6 +40,10 @@
             <li class="nav-item" role="presentation">
                 <button class="nav-link" id="wishlist-tab" onclick="openTab(event, 'wishlist')">❤️Wishlist</button>
             </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="wishlist-tab"
+                    onclick="openTab(event, 'recommendations')">Recommendations</button>
+            </li>
         </ul>
         <script>
             function openTab(evt, tabName) {
@@ -60,7 +64,7 @@
                 document.getElementById(`msg-${tabName}`).style.display = "";
             }
         </script>
-          
+
         <div class="card shadow">
             <div class="card-header p-3">
                 <div class="container-sm">
@@ -68,7 +72,8 @@
                     <div class="tab-msg" id="msg-library" style="float:left; margin:0 auto; width:50%; padding:10px;">
                         📖 Here is your reading list <strong>{{this.username}}</strong>
                     </div>
-                    <div class="tab-msg" id="msg-wishlist" style="float:left; margin:0 auto; width:50%; padding:10px; display:none">
+                    <div class="tab-msg" id="msg-wishlist"
+                        style="float:left; margin:0 auto; width:50%; padding:10px; display:none">
                         ❤️ Here is your wishlist <strong>{{this.username}}</strong>
                     </div>
                     {{/each}}
@@ -85,29 +90,43 @@
                             document.getElementById("select-filter").innerHTML = `<img src="/public/img/filter.png" width="25" height="auto" alt="Filter">${text}<i class="fa fa-caret-down"></i>`;
                         </script>
                         {{/if}}
-                        <div id="filter-detail" style="height:200px;overflow:auto;width:200px" class="w3-dropdown-content w3-bar-block w3-border">
+                        <div id="filter-detail" style="height:200px;overflow:auto;width:200px"
+                            class="w3-dropdown-content w3-bar-block w3-border">
                             <a id="filter-all" href="/dashboard" class="w3-bar-item w3-button">All</a>
-                            <a id="filter-fantasy" href="/filter?genre=Fantasy" class="w3-bar-item w3-button">Fantasy</a>
-                            <a id="filter-sciencefiction" href="/filter?genre=Science Fiction" class="w3-bar-item w3-button">Science Fiction</a>
-                            <a id="filter-actionadventure" href="/filter?genre=Action Adventure" class="w3-bar-item w3-button">Action Adventure</a>
-                            <a id="filter-mystery" href="/filter?genre=Mystery" class="w3-bar-item w3-button">Mystery</a>
+                            <a id="filter-fantasy" href="/filter?genre=Fantasy"
+                                class="w3-bar-item w3-button">Fantasy</a>
+                            <a id="filter-sciencefiction" href="/filter?genre=Science Fiction"
+                                class="w3-bar-item w3-button">Science Fiction</a>
+                            <a id="filter-actionadventure" href="/filter?genre=Action Adventure"
+                                class="w3-bar-item w3-button">Action Adventure</a>
+                            <a id="filter-mystery" href="/filter?genre=Mystery"
+                                class="w3-bar-item w3-button">Mystery</a>
                             <a id="filter-horror" href="/filter?genre=Horror" class="w3-bar-item w3-button">Horror</a>
-                            <a id="filter-historicalfiction" href="/filter?genre=Historical Fiction" class="w3-bar-item w3-button">Historical Fiction</a>
-                            <a id="filter-romance" href="/filter?genre=Romance" class="w3-bar-item w3-button">Romance</a>
-                            <a id="filter-contemporaryfiction" href="/filter?genre=Contemporary Fiction" class="w3-bar-item w3-button">Contemporary Fiction</a>
-                            <a id="filter-youngadult" href="/filter?genre=Young Adult" class="w3-bar-item w3-button">Young Adult</a>
-                            <a id="filter-childrens" href="/filter?genre=Children’s" class="w3-bar-item w3-button">Children’s</a>
-                            <a id="filter-biography" href="/filter?genre=Biography" class="w3-bar-item w3-button">Biography</a>
-                            <a id="filter-foodanddrink" href="/filter?genre=Food and Drink" class="w3-bar-item w3-button">Food and Drink</a>
-                            <a id="filter-artandphotography" href="/filter?genre=Art and Photography" class="w3-bar-item w3-button">Art and Photography</a>
-                            <a id="filter-selfhelp" href="/filter?genre=Self-help" class="w3-bar-item w3-button">Self-help</a>
+                            <a id="filter-historicalfiction" href="/filter?genre=Historical Fiction"
+                                class="w3-bar-item w3-button">Historical Fiction</a>
+                            <a id="filter-romance" href="/filter?genre=Romance"
+                                class="w3-bar-item w3-button">Romance</a>
+                            <a id="filter-contemporaryfiction" href="/filter?genre=Contemporary Fiction"
+                                class="w3-bar-item w3-button">Contemporary Fiction</a>
+                            <a id="filter-youngadult" href="/filter?genre=Young Adult"
+                                class="w3-bar-item w3-button">Young Adult</a>
+                            <a id="filter-childrens" href="/filter?genre=Children’s"
+                                class="w3-bar-item w3-button">Children’s</a>
+                            <a id="filter-biography" href="/filter?genre=Biography"
+                                class="w3-bar-item w3-button">Biography</a>
+                            <a id="filter-foodanddrink" href="/filter?genre=Food and Drink"
+                                class="w3-bar-item w3-button">Food and Drink</a>
+                            <a id="filter-artandphotography" href="/filter?genre=Art and Photography"
+                                class="w3-bar-item w3-button">Art and Photography</a>
+                            <a id="filter-selfhelp" href="/filter?genre=Self-help"
+                                class="w3-bar-item w3-button">Self-help</a>
                             <a id="filter-travel" href="/filter?genre=Travel" class="w3-bar-item w3-button">Travel</a>
                             <a id="filter-other" href="/filter?genre=Other" class="w3-bar-item w3-button">Other</a>
                         </div>
                         <script>
                             function showFilter() {
                                 var detail = document.getElementById("filter-detail");
-                                if (detail.className.indexOf("w3-show") == -1) { 
+                                if (detail.className.indexOf("w3-show") == -1) {
                                     detail.className += " w3-show";
                                 } else {
                                     detail.className = detail.className.replace(" w3-show", "");
@@ -144,7 +163,8 @@
                                                 <p><em>by {{author}}</em></p>
                                                 <p class="card-text">{{description}}</p>
                                             </div>
-                                            <a id="book-detail-library" href="/book?id={{_id}}" class="stretched-link"></a>
+                                            <a id="book-detail-library" href="/book?id={{_id}}"
+                                                class="stretched-link"></a>
                                         </div>
                                     </div>
                                 </div>
@@ -182,7 +202,8 @@
                                                 <p><em>by {{author}}</em></p>
                                                 <p class="card-text">{{description}}</p>
                                             </div>
-                                            <a id="book-detail-wishlist" href="/book?id={{_id}}" class="stretched-link"></a>
+                                            <a id="book-detail-wishlist" href="/book?id={{_id}}"
+                                                class="stretched-link"></a>
                                         </div>
                                     </div>
                                 </div>
@@ -193,6 +214,12 @@
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
+    <!-- Recommendations Tab -->
+    <div class="tab-content card shadow" id="recommendations">
+        <div class="card-header p-3">
+            Your Recommendations
         </div>
     </div>
 </body>

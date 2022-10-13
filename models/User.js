@@ -34,9 +34,10 @@ const userSchema = new Schema({
     password: { type: String },
     book_array: [bookSchema],
     wishlist_array: [bookSchema],
-    friend_array: { type: [this] },
-    friend_array_requests: { type: [this] },
-    friend_array_pending: { type: [this] },
+    friend_array: {type: [this]},
+    friend_array_pending: {type: [this]},
+    friend_array_requests: {type: [this]},
+    recommendations: [bookSchema]
 });
 
 userSchema.plugin(passportLocalMongoose);
