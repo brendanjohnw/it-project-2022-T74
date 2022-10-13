@@ -425,7 +425,6 @@ app.post("/remove-friend", async (req, res) => {
 });
 
 app.post("/cancel-request", async (req, res) => {
-<<<<<<< HEAD
     await User.findOneAndUpdate(
         { username: username_login },
         { $pull: { friend_array_requests: { username: req.body.receiverName } } },
