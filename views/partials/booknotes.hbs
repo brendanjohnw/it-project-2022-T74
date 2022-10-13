@@ -15,7 +15,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Are you sure?</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <button id="close-modal-x" type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
@@ -26,9 +26,9 @@
                 {{/each}}
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Close</button>
+                <button id="close-modal" type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Close</button>
                 {{#each BookData}}
-                <a class="btn btn-danger btn-sm " href="/deletebook?id={{_id}}">Delete book</a>
+                <a id="confirm-modal" class="btn btn-danger btn-sm" href="/deletebook?id={{_id}}">Delete book</a>
                 {{/each}}
             </div>
         </div>
@@ -50,7 +50,7 @@
                     {{#each BookData}}
                     <div class="card-body" style="flex-direction: row">
                         <section class="card-body">
-                            <p align='left'><a href="/dashboard"><i class="fa-solid fa-arrow-left fa-1x">Back</i></a>
+                            <p align='left'><a id="back-to-dashboard" href="/dashboard"><i class="fa-solid fa-arrow-left fa-1x">Back</i></a>
                             </p>
                             <div class="row">
                                 <div class="col">
@@ -63,8 +63,8 @@
                                     <p><em>by {{author}}</em></p>
                                     <p>Genre: {{genre}}</p>
                                     <p>{{description}}</p>
-                                    <a class="btn btn-primary btn-sm " href="/editbook?id={{_id}}">Edit book</a>
-                                    <button type="button" class="btn btn-primary btn-sm" data-toggle="modal"
+                                    <a id="edit-book" class="btn btn-primary btn-sm " href="/editbook?id={{_id}}">Edit book</a>
+                                    <button id="delete-book" type="button" class="btn btn-primary btn-sm" data-toggle="modal"
                                         data-target="#exampleModal">
                                         Delete Book
                                     </button>
@@ -78,13 +78,13 @@
                                         if (wishlist === "No") {
                                             container.innerHTML = `<form method='post' action='/addtowishlist'> 
                                             <input type = 'hidden' id = 'bookId' name = 'bookId' value = '${bookID}'>
-                                            <button type='submit' class='btn btn-light btn-sm' style='background-color:#4CAF50;border:none;color:white'>
+                                            <button id='add-to-wishlist' type='submit' class='btn btn-light btn-sm' style='background-color:#4CAF50;border:none;color:white'>
                                                 Add to wishlist</button></form>`
                                         }
                                         if (wishlist === "Yes") {
                                             container.innerHTML = `<form method='post' action='/removefromwishlist'> 
                                             <input type = 'hidden' id = 'bookId' name = 'bookId' value = '${bookID}'>
-                                            <button type='submit' class='btn btn-success btn-sm' style='background-color:#4CAF50;border:none;color:white'> 
+                                            <button id='remove-from-wishlist' type='submit' class='btn btn-success btn-sm' style='background-color:#4CAF50;border:none;color:white'> 
                                                 Remove from wishlist</button></form>`
                                         }
                                     </script>
@@ -137,7 +137,7 @@
                                 {{/each}}
                             </div>
                             <br>
-                            <button type="submit" class="btn btn-primary btn-md">Add note</button>
+                            <button id="add-note" type="submit" class="btn btn-primary btn-md">Add note</button>
 
                         </form>
                     </div>
@@ -172,11 +172,12 @@
                     {{this.content}}
                 </div>
                 <div class="card-footer">
-                    <p class="alias" style="width: 88%; float: left">
+                    <p class="alias" style="float: left; margin:0 auto; width:50%; padding:8px;">
                         Author: <em>{{this.made_by_user}}</em>
                     </p>
-                    <a class="btn btn-outline-danger" style="width: 12%; float: right"
-                        href="/delete-comment?book={{../this._id}}&comment={{this._id}}">Delete</a>
+                    <a id="delete-comment" class="btn btn-outline-danger" style="float: right" href="/delete-comment?book={{../this._id}}&comment={{this._id}}">
+                        <img src="/public/img/delete.png" width="20" height="auto" alt="Delete">
+                    </a>
                 </div>
             </div>
         </div>

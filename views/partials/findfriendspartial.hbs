@@ -1,14 +1,16 @@
 <script src="/public/js/bootstrap.js"></script>
-<!-- HTML for the dashboard. This displays brief information about a user's books -->
+<!-- HTML for add a friend page. This displays everything for managing friends -->
 
 <head>
     <script crossorigin="anonymous" src="https://kit.fontawesome.com/2e58876b6d.js"></script>
 
     <link href="/public/css/styles.css" rel="stylesheet">
+    <link href="https://www.w3schools.com/w3css/4/w3.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+        integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous"> 
     <script src="/public/js/somecoolfunctions.js"></script>
 </head>
+
 {{#each flash}}
 <div class="alert alert-success" style="text-align:center">
     <strong>{{this}}</strong>
@@ -16,94 +18,197 @@
 </div>
 {{/each}}
 
+{{#each error}}
+<div class="alert alert-danger" style="text-align:center">
+    <strong>{{this}}</strong>
+    <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+</div>
+{{/each}}
+
 <body>
+    <div class="search-box">
+        <form method="post" action="/send-request">
+            <label for="requestedFriend" class="form-label">
+                <h1>Search for a friend</h1>
+                <h3>Type in the username and send a friend request!</h3>
+            </label>
+            <input class="form-control" list="usernames" name="requestedFriend" id="requestedFriend" 
+            placeholder="Type and select a user" autocomplete="off">
+            <datalist id="usernames">
+            </datalist>
+            {{#each Users}}
+            <script>
+                var username = "{{{username}}}";
+                document.getElementById("usernames").innerHTML += `<option value=${username}>`
+            </script>
+            {{/each}}
+            <br>
+            <button id="add-friend" type="submit" class="btn btn-primary">Add Friend</button>
+        </form>
+    </div>
+
     <div class="container">
+        <ul class="nav nav-tabs" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="tab-friends" onclick="openTab(event, 'friends')">
+                    <img src="/public/img/friends.png" width="25" height="auto" alt="Friend"> All Friends
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="tab-sent" onclick="openTab(event, 'sent')">
+                    <img src="/public/img/send.png" width="20" height="auto" alt="Request"> Sent Requests
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="tab-received" onclick="openTab(event, 'received')">
+                    <img src="/public/img/message.png" width="20" height="auto" alt="Request"> Received Requests
+                </button>
+            </li>
+        </ul>
+        <script>
+            function openTab(evt, tabName) {
+                var navlinks = document.getElementsByClassName("nav-link");
+                for (var i = 0; i < navlinks.length; i++) {
+                    navlinks[i].className = navlinks[i].className.replace(" active", "");
+                }
+                var tabcontent = document.getElementsByClassName("tab-content");
+                for (i = 0; i < tabcontent.length; i++) {
+                    tabcontent[i].style.display = "none";
+                }
+                var tabmsg = document.getElementsByClassName("tab-msg");
+                for (i = 0; i < tabmsg.length; i++) {
+                    tabmsg[i].style.display = "none";
+                }
+                evt.currentTarget.className += " active";
+                document.getElementById(tabName).style.display = "";
+                document.getElementById(`msg-${tabName}`).style.display = "";
+            }
+        </script>
+
         {{#each ThisUser}}
         <div class="card shadow">
             <div class="card-header">
-                Your Friends
+                <div class="tab-msg" id="msg-friends">
+                    {{#if friend_array}}
+                        <strong>Friend list({{friend_array.length}})</strong>
+                    {{else}}
+                    <strong>Friend list(0)</strong>
+                    {{/if}}
+                </div>
+                <div class="tab-msg" id="msg-sent" style="display: none;">
+                    {{#if friend_array_requests}}
+                        {{#if (isSingular friend_array_requests)}}
+                            <strong>{{friend_array_requests.length}} request sent</strong>
+                        {{else}}
+                            <strong>{{friend_array_requests.length}} requests sent</strong>
+                        {{/if}}
+                    {{else}}
+                    <strong>0 request sent</strong>
+                    {{/if}}
+                </div>
+                <div class="tab-msg" id="msg-received" style="display: none;">
+                    {{#if friend_array_pending}}
+                        {{#if (isSingular friend_array_pending)}}
+                            <strong>{{friend_array_pending.length}} request received</strong>
+                        {{else}}
+                            <strong>{{friend_array_pending.length}} requests received</strong>
+                        {{/if}}
+                    {{else}}
+                    <strong>0 request received</strong>
+                    {{/if}}
+                </div>
             </div>
-            <div class="card-body">
+            
+            <div class="tab-content card-body" id="friends">
                 {{#if friend_array}}
-                {{#each friend_array}}
-                {{username}}
-                <form method="post" action="/remove-friend">
-
-                    <input type="hidden" name="friend" id="friend" value={{_id}}>
-                    <button class="btn-primary">Remove Friend</button>
-                </form>
-                {{/each}}
+                <div class="container">
+                    <ul class='friend-list'>
+                        {{#each friend_array}}
+                        <li class='row friend'>
+                            <div class="col-8 name">
+                                <img src='/public/img/user.png'/>
+                                {{username}}
+                            </div>
+                            <div class='col-4'>
+                                <div style="float: right;">
+                                    <div class="btn-group">
+                                        <button id="view" class="btn btn-outline-info">View library</button>
+                                        <button id="remove" form="remove-friend" class="btn btn-outline-danger">Remove</button>          
+                                    </div>
+                                </div>
+                                <form id="remove-friend" method="post" action="/remove-friend">
+                                    <input type="hidden" name="friendName" id="friendName" value={{username}}>
+                                </form>
+                            </div>
+                        </li>
+                        {{/each}}
+                    </ul>
+                </div>
                 {{else}}
-                <div class="p-3 text-center">You have no friends</div>
+                <div class="p-3 text-center">No friends yet. Add friends to get connected!</div>
                 {{/if}}
             </div>
-        </div>
-    </div>
-    <div class="container">
-        <div class="card shadow">
-            <div class="card-header">
-                Your friend requests
-            </div>
-            <div class="card-body">
+
+            <div class="tab-content card-body" id="sent" style="display: none;">
                 {{#if friend_array_requests}}
-                {{#each friend_array_requests}}
-                <form method="post" action="/cancel-request">
-                    <input type="hidden" name="friendrequest" id="friendrequest" value={{username}}>
-                    <button class="btn-primary">Cancel Request</button>
-                </form>
-                {{username}}
-                {{/each}}
+                <div class="container">
+                    <ul class='friend-list'>
+                        {{#each friend_array_requests}}
+                        <li class='row friend'>
+                            <div class="col-10 name">
+                                <img src='/public/img/user.png'/>
+                                {{username}}
+                            </div>
+                            <div class='col-2'>
+                                <div style="float: right;">
+                                    <form method="post" action="/cancel-request">
+                                        <input type="hidden" name="receiverName" id="receiverName" value={{username}}>
+                                        <button id="cancel-request" class="btn btn-outline-primary">Cancel</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </li>
+                        {{/each}}
+                    </ul>
+                </div>
                 {{else}}
-                You have not sent any friend requests yet!
+                <div class="p-3 text-center">No friend requests sent!</div>
                 {{/if}}
             </div>
-        </div>
-    </div>
-    <div class="container">
-        <div class="card shadow">
-            <div class="card-header">
-                Pending Friend Requests
-            </div>
-            <div class="card-body">
+
+            <div class="tab-content card-body" id="received" style="display: none;">
                 {{#if friend_array_pending}}
-                {{#each friend_array_pending}}
-                {{username}}
-                <form method="post" action="accept-request">
-                    <input type="hidden" name="userrequestaccept" id="userrequestaccept" value={{username}}>
-                    <input type="hidden" name="userIdrequester" id="userIdrequester" value={{_id}}>
-
-                    <button class="btn-primary">Accept Request</button>
-                </form>
-                <form method="post" action="decline-request">
-                    <input type="hidden" name="userrequestdecline" id="userrequestdecline" value={{username}}>
-                    <input type="hidden" name="userIdrequester" id="userIdrequester" value={{_id}}>
-                    <button class="btn-primary">Decline Request</button>
-                </form>
-
-                {{/each}}
+                <div class="container">
+                    <ul class='friend-list'>
+                        {{#each friend_array_pending}}
+                        <li class='row friend'>
+                            <div class="col-8 name">
+                                <img src='/public/img/user.png'/>
+                                {{username}}
+                            </div>
+                            <div class='col-4'>
+                                <div style="float: right;">
+                                    <div class="btn-group">
+                                        <button id="accept" form="accept-request" class="btn btn-outline-dark">Accept</button>
+                                        <button id="decline" form="decline-request" class="btn btn-outline-danger">Decline</button>
+                                    </div>
+                                    <form id="accept-request" method="post" action="/accept-request">
+                                        <input type="hidden" name="requesterName" id="requesterName" value={{username}}>
+                                    </form>
+                                    <form id="decline-request" method="post" action="/decline-request">
+                                        <input type="hidden" name="requesterName" id="requesterName" value={{username}}>    
+                                    </form>
+                                </div>
+                            </div>
+                        </li>
+                        {{/each}}
+                    </ul>
+                </div>
                 {{else}}
-                No one has sent any requests to you yet!
+                <div class="p-3 text-center">No friend requests received!</div>
                 {{/if}}
             </div>
         </div>
-    </div>
-    <div class="container">
-        {{/each}}
-        {{#each ThisUser}}
-        <input type="hidden" name="currentUser" id="currentUser" value={{_id}}>
-        {{/each}}
-        {{#each Users}}
-        <div class="row">
-            <div class="p-3 text-center">
-                {{username}}
-                <form method="post" action="/send-request">
-                    <input type="hidden" name="requestedFriend" id="requestedfriend" value={{_id}}>
-                    <button class="btn-primary">Add Friend</button>
-                </form>
-            </div>
-        </div>
         {{/each}}
     </div>
-
-
 </body>

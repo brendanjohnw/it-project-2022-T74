@@ -1,6 +1,6 @@
 // Listen for requests
 import express from "express";
-import { engine } from "express-handlebars";
+import { create, engine } from "express-handlebars";
 import { fileURLToPath } from "url";
 import path from "path";
 import { mainRouter } from "./routes/mainRouter.js";
@@ -12,14 +12,22 @@ import cookieParser from "cookie-parser";
 import flash from "express-flash";
 import bcrypt from "bcryptjs";
 import { username_login } from "./passport.js";
-import passport from "passport";
-import LocalStrategy from "passport-local";
-import { ObjectId } from "mongodb";
-
-import passportLocalMongoose from "passport-local-mongoose";
 
 const app = express();
-app.engine(".hbs", engine({ extname: ".hbs" }));
+
+const hbs = create({
+    extname: ".hbs",
+    helpers: {
+        isSingular: function (array) {
+            if (array.length < 2) {
+                return true;
+            } else {
+                return false;
+            }
+        },
+    },
+});
+app.engine(".hbs", hbs.engine);
 app.set("view engine", ".hbs");
 app.set("views", "./views");
 app.use(cookieParser());
@@ -323,98 +331,98 @@ app.post("/post-comment", async (req, res, next) => {
 });
 
 // For adding a friend
-
 app.post("/send-request", async (req, res) => {
-    const requestedFriend = req.body.requestedFriend;
     const thisUser = await User.findOne({ username: username_login });
-    const requestedUser = await User.findOne({ _id: requestedFriend });
-    const theUser = new User(requestedUser);
-    const meUser = new User(thisUser);
-    console.log(theUser);
-    console.log(meUser);
-    if (thisUser && requestedUser) {
-        thisUser.friend_array_requests.push(theUser);
-        requestedUser.friend_array_pending.push(meUser);
-        await requestedUser
-            .save()
-            .then((res) => {
-                console.log("Saved");
-            })
-            .catch((err) => {
-                console.log("Error has occurred!");
-            });
-    }
-    await thisUser
-        .save()
-        .then((res) => {
-            console.log("Saved");
-        })
-        .catch((err) => {
-            console.log(err);
+    const requestedUser = await User.findOne({ username: req.body.requestedFriend });
+    if (requestedUser) {
+        const in_friend = await User.exists({
+            username: username_login,
+            "friend_array.username": req.body.requestedFriend,
         });
-    req.flash("flash", `Request sent to ${requestedUser.username}!`);
-    res.redirect('/findfriends')
-
-})
-
+        const in_request = await User.exists({
+            username: username_login,
+            "friend_array_requests.username": req.body.requestedFriend,
+        });
+        const in_pending = await User.exists({
+            username: username_login,
+            "friend_array_pending.username": req.body.requestedFriend,
+        });
+        if (in_friend) {
+            req.flash("error", `'${requestedUser.username}' is already your friend!`);
+        } else if (in_request) {
+            req.flash("error", `You have sent a request to '${requestedUser.username}'!`);
+        } else if (in_pending) {
+            req.flash("error", `'${requestedUser.username}' has sent a reqeust to you! Please check`);
+        } else {
+            const sender = new User(thisUser);
+            const receiver = new User(requestedUser);
+            thisUser.friend_array_requests.push(receiver);
+            requestedUser.friend_array_pending.push(sender);
+            await thisUser.save().catch((err) => {
+                console.log(err);
+            });
+            await requestedUser.save().catch((err) => {
+                console.log(err);
+            });
+            req.flash("flash", `Request sent to '${requestedUser.username}'!`);
+        }
+    } else {
+        req.flash("error", `Error! User '${req.body.requestedFriend}' does not exist!`);
+    }
+    res.redirect("/findfriends");
+});
 
 app.post("/accept-request", async (req, res) => {
-    // find user that requested
-    const requestedUser = req.body.userrequestaccept;
-    const friendUser = await User.findOne({ username: requestedUser });
-    // find current user
     const currentUser = await User.findOne({ username: username_login });
-    console.log(req.body.userrequestaccept);
-    console.log(username_login);
-
-    // add requested user to the friend array of the current user and the user who requested (Works!)
-    const friend_curr_user = new User(currentUser);
-    const friend_req_user = new User(friendUser);
-    await User.findOneAndUpdate({ username: username_login }, { $push: { friend_array: friend_req_user } });
-    await User.findOneAndUpdate({ username: requestedUser }, { $push: { friend_array: friend_curr_user } });
-    // remove requested user from requests in currentUser (Does not work)
+    const friendUser = await User.findOne({ username: req.body.requesterName });
+    await User.findOneAndUpdate({ username: username_login }, { $push: { friend_array: new User(friendUser) } });
+    await User.findOneAndUpdate(
+        { username: req.body.requesterName },
+        { $push: { friend_array: new User(currentUser) } }
+    );
     await User.findOneAndUpdate(
         { username: username_login },
-        { $pull: { friend_array_pending: { username: friend_req_user.username } } },
+        { $pull: { friend_array_pending: { username: req.body.requesterName } } },
         { multi: true }
     );
-    // remove pending user from pending requests in friendUer (Does not work)
     await User.findOneAndUpdate(
-        { username: requestedUser },
-        { $pull: { friend_array_requests: { username: friend_curr_user.username } } },
+        { username: req.body.requesterName },
+        { $pull: { friend_array_requests: { username: username_login } } },
         { multi: true }
     );
-    req.flash("flash", `Request by ${requestedUser} accepted!`);
-    res.redirect('/findfriends')
-})
+    req.flash("flash", `Request by '${req.body.requesterName}' accepted!`);
+    res.redirect("/findfriends");
+});
 
 app.post("/decline-request", async (req, res) => {
-    // find user that requested
-    const requestedUser = req.body.userrequestaccept
-    const friendUser = await User.findOne({ username: requestedUser });
-    // find current user
-    const currentUser = await User.findOne({ username: username_login });
-    console.log(req.body.userrequestaccept)
-    console.log(username_login)
-    // remove requested user from requests in currentUser 
-    await User.findOneAndUpdate({ username: username_login }, { $pull: { friend_array_pending: { username: friend_req_user.username } } }, { multi: true })
-    // remove pending user from pending requests in friendUer 
-    await User.findOneAndUpdate({ username: requestedUser }, { $pull: { friend_array_requests: { username: friend_curr_user.username } } }, { multi: true })
-    req.flash("flash", `Request by ${requestedUser} declined!`);
-    res.redirect('/findfriends')
-})
+    await User.findOneAndUpdate(
+        { username: username_login },
+        { $pull: { friend_array_pending: { username: req.body.requesterName } } },
+        { multi: true }
+    );
+    await User.findOneAndUpdate(
+        { username: req.body.requesterName },
+        { $pull: { friend_array_requests: { username: username_login } } },
+        { multi: true }
+    );
+    req.flash("flash", `Request by '${req.body.requesterName}' declined!`);
+    res.redirect("/findfriends");
+});
 
 app.post("/remove-friend", async (req, res) => {
-    const friend = req.body.friend
-    const currentUser = await User.findOne({ username: username_login })
-    const friendUser = await User.findOne({ _id: friend })
-    // remove friend from current user's friend list
-    await User.findOneAndUpdate({ username: username_login }, { $pull: { friend_array: { username: friendUser.username } } }, { multi: true })
-    // remove current user from corresponding friend's friend list
-    await User.findOneAndUpdate({ username: friendUser.username }, { $pull: { friend_array: { username: username_login } } }, { multi: true })
-    req.flash("flash", `You removed ${friendUser.username}.`)
-    res.redirect('/findfriends');
-})
+    await User.findOneAndUpdate(
+        { username: username_login },
+        { $pull: { friend_array: { username: req.body.friendName } } },
+        { multi: true }
+    );
+    await User.findOneAndUpdate(
+        { username: req.body.friendName },
+        { $pull: { friend_array: { username: username_login } } },
+        { multi: true }
+    );
+    req.flash("flash", `You removed '${req.body.friendName}'.`);
+    res.redirect("/findfriends");
+});
 
 app.post("/cancel-request", async (req, res) => {
     const request = req.body.friendrequest
@@ -441,6 +449,7 @@ app.post("/recommend-book", async (req, res) => {
     res.redirect(`/book?id=${recommended_book}`)
     
 })
+
 app.listen(process.env.PORT || 3900 || "0.0.0.0", () => {
     console.log("running!");
 });

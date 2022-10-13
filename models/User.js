@@ -19,7 +19,6 @@ const bookSchema = new Schema({
     date_added: { type: String, default: format(new Date(), "yyyy-MM-dd") },
     genre: { type: String },
     in_wishlist: { type: String },
-    rating: { type: Number },
     filename: { type: String },
     img: {
         data: Buffer,
@@ -30,9 +29,6 @@ const bookSchema = new Schema({
 
 export const Book = mongoose.model("Book", bookSchema);
 
-
-
-
 const userSchema = new Schema({
     username: { type: String },
     password: { type: String },
@@ -42,6 +38,7 @@ const userSchema = new Schema({
     friend_array_pending: {type: [this]},
     friend_array_requests: {type: [this]},
     recommendations: [bookSchema]
+
 });
 
 userSchema.plugin(passportLocalMongoose);
