@@ -42,6 +42,14 @@
     <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
 </div>
 {{/each}}
+
+{{#each success}}
+<div class="alert alert-success" style="text-align:center">
+    <strong>{{this}}</strong>
+    <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+</div>
+{{/each}}
+
 <div class="container py-5 h-40">
     <div class="row justify-content-center align-items-center h-100">
         <div class="col-12 col-lg-9 col-xl-7">
@@ -65,13 +73,12 @@
                                     <p>Genre: {{genre}}</p>
                                     <p>{{description}}</p>
                                     <a id="edit-book" class="btn btn-primary btn-sm " href="/editbook?id={{_id}}">Edit book</a>
-                                    <button id="delete-book" type="button" class="btn btn-primary btn-sm" data-toggle="modal"
+                                    <button id="delete-book" type="button" class="btn btn-danger btn-sm" data-toggle="modal"
                                         data-target="#exampleModal">
                                         Delete Book
                                     </button>
                                     <br><br>
-                                    <p id="add-to-wish">
-                                    </p>
+                                    <p id="add-to-wish"></p>
                                     <script>
                                         var container = document.getElementById("add-to-wish")
                                         var wishlist = "{{{ this.in_wishlist }}}"
@@ -79,22 +86,64 @@
                                         if (wishlist === "No") {
                                             container.innerHTML = `<form method='post' action='/addtowishlist'> 
                                             <input type = 'hidden' id = 'bookId' name = 'bookId' value = '${bookID}'>
-                                            <button id='add-to-wishlist' type='submit' class='btn btn-light btn-sm' style='background-color:#4CAF50;border:none;color:white'>
-                                                Add to wishlist</button></form>`
+                                            <button id='add-to-wishlist' type='submit' class='btn btn-outline-primary btn-sm'>🤍Add to wishlist</button></form>`
                                         }
                                         if (wishlist === "Yes") {
                                             container.innerHTML = `<form method='post' action='/removefromwishlist'> 
                                             <input type = 'hidden' id = 'bookId' name = 'bookId' value = '${bookID}'>
-                                            <button id='remove-from-wishlist' type='submit' class='btn btn-success btn-sm' style='background-color:#4CAF50;border:none;color:white'> 
-                                                Remove from wishlist</button></form>`
+                                            <button id='remove-from-wishlist' type='submit' class='btn btn-outline-primary btn-sm'>❤️Remove from wishlist</button></form>`
                                         }
                                     </script>
-
+                                    
+                                    <!-- Book recommendation -->
+                                    <p><a id="recommend" class='btn btn-outline-success btn-sm' href="#popup">📖Recommend to friend</a></p>
+                                    <div id="popup" class="overlay">
+                                        <div class="popup">
+                                            <h3>Recommend a book</h3>
+                                            <hr>
+                                            <a class="close" href="#">&times;</a>
+                                            <div class="content">
+                                                <form id="send-recommendation" method="post" action="/send-recommendation">
+                                                    <input type="hidden" id="bookId" name="bookId" value="{{_id}}">
+                                                    <input type="hidden" id="bookTitle" name="bookTitle" value="{{title}}">
+                                                    <input type="hidden" id="bookAuthor" name="bookAuthor" value="{{author}}">
+                                                    {{/each}}
+                                                    <div class="search-box" style="margin-top: 0;">
+                                                        <label for="receiverName">Specify a friend:</label>
+                                                        <input class="form-control" list="friends" name="receiverName" id="receiverName" 
+                                                        placeholder="Type in a friend name and select..." autocomplete="off">
+                                                        <datalist id="friends">
+                                                        </datalist>
+                                                        {{#each UserData}}
+                                                        {{#each friend_array}}
+                                                        <script>
+                                                            var username = "{{{this.username}}}";
+                                                            document.getElementById("friends").innerHTML += `<option value=${username}>`
+                                                        </script>
+                                                        {{/each}}
+                                                        {{/each}}
+                                                    </div>
+                                                    <div class="form-outline">
+                                                        <label for="reason">Recommendation reason:</label>
+                                                        <textarea name="reason" id="reason" class="form-control form-control-md" placeholder="Give a reason for the recommendation..."
+                                                        rows="3" form="send-recommendation" oninput="countChars()"></textarea>
+                                                        <p align="right"><font size="2">Character count: <span id="count">0</span></font></p>
+                                                        <script>
+                                                            function countChars() {
+                                                                var numChars = document.getElementById("reason").value.length;
+                                                                document.getElementById("count").innerHTML = `${numChars}`;
+                                                            }
+                                                        </script>
+                                                    </div>
+                                                    <button type="submit" class="btn btn-primary">Recommend</button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </section>
                     </div>
-                    {{/each}}
 
                     <!-- Note adding -->
                     <div class="p-5 text-center">

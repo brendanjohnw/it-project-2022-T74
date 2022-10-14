@@ -14,6 +14,7 @@ import {
     getSettings,
     getAddFriends,
     getFilter,
+    getRecomm,
 } from "../controllers/AuthController.js";
 import { Book, User, Comment } from "../models/User.js";
 import { username_login } from "../passport.js";
@@ -146,3 +147,6 @@ authRouter.get("/delete-comment", checkAuthentication, async (req, res) => {
 
 // Filter by a genre
 authRouter.get("/filter", checkAuthentication, getFilter);
+
+// Recommendations
+authRouter.get("/recommendations", checkAuthentication, getRecomm);

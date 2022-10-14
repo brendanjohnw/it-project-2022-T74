@@ -197,4 +197,123 @@ body {
     font-size: 16px;
 }
 
-/* Fun stuff */
+.overlay {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.7);
+    transition: opacity 500ms;
+    visibility: hidden;
+    opacity: 0;
+}
+
+.overlay:target {
+    visibility: visible;
+    opacity: 1;
+}
+
+.popup {
+    margin: 120px auto;
+    padding: 20px;
+    background: #fff;
+    border-radius: 5px;
+    width: 30%;
+    position: relative;
+    transition: all 5s ease-in-out;
+}
+  
+.popup h3 {
+    margin-top: 0;
+    color: #333;
+    font-family: 'Noto Serif', serif;
+}
+
+.popup .close {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    transition: all 10ms;
+    font-size: 30px;
+    font-weight: bold;
+    text-decoration: none;
+    color: #333;
+}
+
+.popup .close:hover {
+    color: #009f42;
+}
+
+.popup .content {
+    max-height: 30%;
+    overflow: auto;
+    text-align: center;
+}
+  
+@media screen and (max-width: 700px){
+    .popup{
+      width: 70%;
+    }
+}
+
+.inbox {
+    display: block;
+    margin: auto;
+    padding: 0;
+    width: 95%;
+    height: 100%;
+    background: #EEE;
+    list-style-type: none;
+}
+
+.recommendation {
+    width: auto;
+    height: fit-content;
+    background: #EEE;
+    border-bottom: 1px solid #DDD;
+    display: flex;
+    align-items: center;
+}
+
+.recommendation img {
+    width: 60px;
+    height: 60px;
+}
+  
+.recommendation:not(.selected):hover {
+    background: #DDD;
+}
+
+.recommendation .content {
+    height: 100%;
+    margin-top: 10px;
+    margin-bottom: 8px;
+}
+
+.recommendation .content h5 {
+    font-size: 18px;
+    margin-bottom: 5px;
+}
+
+.recommendation .content p {
+    font-size: 14px;
+    margin-bottom: 2px;
+}
+
+.recommendation .time p {
+    margin-top: 10px;
+    font-size: 13px;
+    text-align: right;
+    color:rgb(138, 138, 138);
+}
+
+#textButton {
+    cursor: pointer;
+    font-weight: 510;
+    color:rgb(133, 133, 133);
+}
+
+#textButton:hover {
+    text-decoration: underline;
+}

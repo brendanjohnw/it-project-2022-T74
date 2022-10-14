@@ -109,9 +109,15 @@ export const getBook = async (req, res) => {
             { username: username_login },
             {
                 username: true,
+                friend_array: true,
             }
         ).lean();
-        res.render("book", { BookData: bookData, UserData: userData, flash: req.flash("flash") });
+        res.render("book", {
+            BookData: bookData,
+            UserData: userData,
+            flash: req.flash("flash"),
+            success: req.flash("success"),
+        });
     } catch (err) {
         console.log(err);
     }
@@ -160,6 +166,21 @@ export const getFilter = async (req, res) => {
             UserData: userData,
             SelectedGenre: req.query.genre,
         });
+    } catch (err) {
+        console.log(err);
+    }
+};
+
+export const getRecomm = async (req, res) => {
+    try {
+        const userData = await User.find(
+            { username: username_login },
+            {
+                recomm_array_sent: true,
+                recomm_array_received: true,
+            }
+        ).lean();
+        res.render("recommendation", { UserData: userData });
     } catch (err) {
         console.log(err);
     }

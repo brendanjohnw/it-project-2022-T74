@@ -29,6 +29,17 @@ const bookSchema = new Schema({
 
 export const Book = mongoose.model("Book", bookSchema);
 
+const recommendationSchema = new Schema({
+    title: { type: String },
+    author: { type: String },
+    reason: { type: String },
+    time_sent: { type: String, default: format(new Date(), "yyyy-MM-dd") },
+    sender_name: { type: String },
+    receiver_name: { type: String },
+});
+
+export const Recommendation = mongoose.model("Recommendation", recommendationSchema);
+
 const userSchema = new Schema({
     username: { type: String },
     password: { type: String },
@@ -37,6 +48,8 @@ const userSchema = new Schema({
     friend_array: { type: [this] },
     friend_array_requests: { type: [this] },
     friend_array_pending: { type: [this] },
+    recomm_array_sent: [recommendationSchema],
+    recomm_array_received: [recommendationSchema],
 });
 
 userSchema.plugin(passportLocalMongoose);
