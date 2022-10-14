@@ -5,7 +5,7 @@ import { fileURLToPath } from "url";
 import path from "path";
 import { mainRouter } from "./routes/mainRouter.js";
 import { authRouter } from "./routes/auth.js";
-import { User, Comment, Book } from "./models/User.js";
+import { User, Comment, Book, Recommendation } from "./models/User.js";
 import mongoose from "mongoose";
 import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
@@ -334,7 +334,7 @@ app.post("/post-comment", async (req, res, next) => {
 app.post("/send-request", async (req, res) => {
     const thisUser = await User.findOne({ username: username_login });
     const requestedUser = await User.findOne({ username: req.body.requestedFriend });
-    if (requestedUser) {
+    if (req.body.requestedFriend !== username_login && requestedUser) {
         const in_friend = await User.exists({
             username: username_login,
             "friend_array.username": req.body.requestedFriend,
@@ -437,6 +437,38 @@ app.post("/cancel-request", async (req, res) => {
     );
     req.flash("flash", `Request to '${req.body.receiverName}' cancelled!`);
     res.redirect("/findfriends");
+});
+
+// For sending a book recommendation
+app.post("/send-recommendation", async (req, res) => {
+    const is_friend = await User.exists({
+        username: username_login,
+        "friend_array.username": req.body.receiverName,
+    });
+    if (is_friend) {
+        const sender = await User.findOne({ username: username_login });
+        const receiver = await User.findOne({ username: req.body.receiverName });
+        const newRecomm = new Recommendation({
+            title: req.body.bookTitle,
+            author: req.body.bookAuthor,
+            reason: req.body.reason,
+            sender_name: username_login,
+            receiver_name: req.body.receiverName,
+        });
+        sender.recomm_array_sent.push(newRecomm);
+        receiver.recomm_array_received.push(newRecomm);
+        newRecomm.save();
+        await sender.save().catch((err) => {
+            console.log(err);
+        });
+        await receiver.save().catch((err) => {
+            console.log(err);
+        });
+        req.flash("success", `Success! Recommendation sent to '${req.body.receiverName}'!`);
+    } else {
+        req.flash("flash", `Error! User '${req.body.receiverName}' is not your friend!`);
+    }
+    res.redirect(`/book?id=${req.body.bookId}`);
 });
 
 app.listen(process.env.PORT || 3900 || "0.0.0.0", () => {
