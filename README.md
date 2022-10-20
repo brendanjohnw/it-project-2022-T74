@@ -78,9 +78,23 @@ All javascript code is written in CommonJS syntax
 - Comment major sections of code so everyone is on the same page.
 
 # Changelog
-
+Week 6
+- Added secure authentication
 - Added validation check message to the sign up screen
 - Added new static web pages for each user dashboard
+Week 9
+- Added feature to add books to library
+- Added ability to write comments on books
+- Added ability to edit details about a book
+- Added ability to change passwords
+Week 12
+- Added ability for users to add other users as friends
+- Added book recommendation feature
+- Users can now add books to their wishlist
+- Added random messages on dashboard
+- Some UI tweaks
+- Fixed the bug where only the friends at the top of the list would be deleted or added.
+
 
 # Contributors
 
