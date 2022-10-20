@@ -132,13 +132,15 @@
                             <div class='col-4'>
                                 <div style="float: right;">
                                     <div class="btn-group">
-                                        <button id="view" class="btn btn-outline-info">View library</button>
-                                        <button id="remove" form="remove-friend" class="btn btn-outline-danger">Remove</button>          
+                                        <form id="view-library">
+                                            <button id="view" class="btn btn-outline-info">View library</button>
+                                        </form>
+                                        <form id="remove-friend" method="post" action="/remove-friend">
+                                            <input type="hidden" name="friendName" id="friendName" value={{username}}>
+                                            <button id="remove" class="btn btn-outline-danger">Remove</button>
+                                        </form>          
                                     </div>
                                 </div>
-                                <form id="remove-friend" method="post" action="/remove-friend">
-                                    <input type="hidden" name="friendName" id="friendName" value={{username}}>
-                                </form>
                             </div>
                         </li>
                         {{/each}}
@@ -189,15 +191,15 @@
                             <div class='col-4'>
                                 <div style="float: right;">
                                     <div class="btn-group">
-                                        <button id="accept" form="accept-request" class="btn btn-outline-dark">Accept</button>
-                                        <button id="decline" form="decline-request" class="btn btn-outline-danger">Decline</button>
+                                        <form id="accept-request" method="post" action="/accept-request">
+                                            <input type="hidden" name="requesterName" id="requesterName" value={{username}}>
+                                            <button id="accept" class="btn btn-outline-dark">Accept</button>
+                                        </form>
+                                        <form id="decline-request" method="post" action="/decline-request">
+                                            <input type="hidden" name="requesterName" id="requesterName" value={{username}}>
+                                            <button id="decline" class="btn btn-outline-danger">Decline</button>   
+                                        </form>
                                     </div>
-                                    <form id="accept-request" method="post" action="/accept-request">
-                                        <input type="hidden" name="requesterName" id="requesterName" value={{username}}>
-                                    </form>
-                                    <form id="decline-request" method="post" action="/decline-request">
-                                        <input type="hidden" name="requesterName" id="requesterName" value={{username}}>    
-                                    </form>
                                 </div>
                             </div>
                         </li>
