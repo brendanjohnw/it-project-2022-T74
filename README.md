@@ -1,7 +1,7 @@
 # Bookpedia 
 ## About This Project: 
 Our group believes there is no existing application 100% dedicated to books. While people could use existing social platforms, or data storing tools to record their reading activity, we believe users would benefit from having a completely dedicated application.
-Solution: Bookpedia is a web application designed for users to record and track the books that they read, or would like to read. Bookpedia also enables users to connect with friends. Friends can track other friends reading habits, as well as provide comments, and recommendations
+Solution: Bookpedia is a web application designed for users to record and track the books that they read, or would like to read. Bookpedia also enables users to connect with friends. Friends can track other friends reading habits, as well as provide comments, and recommendations.
 
 ## Features
 
@@ -70,8 +70,8 @@ To use this application, you would need to have the following packages installed
 - nodemon@2.0.19
 - passport@0.6.0
 
-Use `npm install <package>` to install these
-All javascript code is written in CommonJS syntax
+Use `npm install <package>` to install these.
+All javascript code is written in CommonJS syntax.
 
 # Commit Rules
 - Never push directly to main
