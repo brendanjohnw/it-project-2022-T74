@@ -49,18 +49,26 @@ In future versions, more interactional features may be added:
 
 
 To use this application, you would need to have the following packages installed:
-- nodejs
-- expressjs
-- express-handlebars
-- express-flash
-- express-session
-- cookieParser
-- handlebars
-- passportjs
-- bcryptjs
-- mongoose
-- body-parser
-- bootstrap@5.2
+├── bcrypt@5.0.1
+├── bcryptjs@2.4.3
+├── body-parser@1.20.0
+├── bootstrap@5.2.0
+├── cookie-parser@1.4.6
+├── cookieparser@0.1.0
+├── date-fns@2.29.3
+├── express-flash@0.0.2
+├── express-handlebars@6.0.6
+├── express-session@1.17.3
+├── express@4.17.3
+├── expressjs@1.0.1
+├── handlebars@4.7.7
+├── jquery@3.6.0
+├── mongodb@4.9.1
+├── mongoose@6.6.1
+├── multer@1.4.5-lts.1
+├── nodejs@0.0.0
+├── nodemon@2.0.19
+├── passport@0.6.0
 
 Use `npm install <package>` to install these
 All javascript code is written in CommonJS syntax
