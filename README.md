@@ -10,13 +10,16 @@ A lightweight, simple personal library store.
 - Add books to your library
 - You can upload pictures of your books, the title, genre and a brief description
 - Store notes for each of your books
-- label your book as part of your wishlist
+- Label your book as part of your wishlist
 
-In future versions, the ability to interact with other users will be implemented, such includes:
+The ability to interact with other users:
 - Ability to add friends on the platform
+- Recommend your favourite books to friends
+
+In future versions, more interactional features may be added:
+- View other users' book collections
 - Mark a book as part of a private or public library
-- Friends can write comments on each other's group
-- Recommend books to other users.
+- Friends can write comments on each other's book
 
  ## Getting started
 
