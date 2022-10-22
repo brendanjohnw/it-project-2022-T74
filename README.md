@@ -89,6 +89,7 @@ All javascript code is written in CommonJS syntax
 - Added feature to add books to library
 - Added ability to write comments on books
 - Added ability to edit details about a book
+- Added ability to delete a book
 - Added ability to change passwords
 ## Week 12
 - Added ability for users to add other users as friends
