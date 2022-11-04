@@ -1,7 +1,7 @@
 # Bookpedia 
 ## About This Project: 
 Our group believes there is no existing application 100% dedicated to books. While people could use existing social platforms, or data storing tools to record their reading activity, we believe users would benefit from having a completely dedicated application.
-Solution: Bookpedia is a web application designed for users to record and track the books that they read, or would like to read. Bookpedia also enables users to connect with friends. Friends can track other friends reading habits, as well as provide comments, and recommendations
+Solution: Bookpedia is a web application designed for users to record and track the books that they read, or would like to read. Bookpedia also enables users to connect with friends. Friends can track other friends reading habits, as well as provide comments, and recommendations.
 
 ## Features
 
@@ -10,13 +10,16 @@ A lightweight, simple personal library store.
 - Add books to your library
 - You can upload pictures of your books, the title, genre and a brief description
 - Store notes for each of your books
-- label your book as part of your wishlist
+- Label your book as part of your wishlist
 
-In future versions, the ability to interact with other users will be implemented, such includes:
+The ability to interact with other users:
 - Ability to add friends on the platform
+- Recommend your favourite books to friends
+
+In future versions, more interactional features may be added:
+- View other users' book collections
 - Mark a book as part of a private or public library
-- Friends can write comments on each other's group
-- Recommend books to other users.
+- Friends can write comments on each other's book
 
  ## Getting started
 
@@ -46,21 +49,29 @@ In future versions, the ability to interact with other users will be implemented
 
 
 To use this application, you would need to have the following packages installed:
-- nodejs
-- expressjs
-- express-handlebars
-- express-flash
-- express-session
-- cookieParser
-- handlebars
-- passportjs
-- bcryptjs
-- mongoose
-- body-parser
-- bootstrap@5.2
+- bcrypt@5.0.1
+- bcryptjs@2.4.3
+- body-parser@1.20.0
+- bootstrap@5.2.0
+- cookie-parser@1.4.6
+- cookieparser@0.1.0
+- date-fns@2.29.3
+- express-flash@0.0.2
+- express-handlebars@6.0.6
+- express-session@1.17.3
+- express@4.17.3
+- expressjs@1.0.1
+- handlebars@4.7.7
+- jquery@3.6.0
+- mongodb@4.9.1
+- mongoose@6.6.1
+- multer@1.4.5-lts.1
+- nodejs@0.0.0
+- nodemon@2.0.19
+- passport@0.6.0
 
-Use `npm install <package>` to install these
-All javascript code is written in CommonJS syntax
+Use `npm install <package>` to install these.
+All javascript code is written in CommonJS syntax.
 
 # Commit Rules
 - Never push directly to main
@@ -78,9 +89,24 @@ All javascript code is written in CommonJS syntax
 - Comment major sections of code so everyone is on the same page.
 
 # Changelog
-
+## Week 6
+- Added secure authentication
 - Added validation check message to the sign up screen
 - Added new static web pages for each user dashboard
+## Week 9
+- Added feature to add books to library
+- Added ability to write comments on books
+- Added ability to edit details about a book
+- Added ability to delete a book
+- Added ability to change passwords
+## Week 12
+- Added ability for users to add other users as friends
+- Added book recommendation feature
+- Users can now add books to their wishlist
+- Added random messages on dashboard
+- Some UI tweaks
+- Fixed the bug where only the friends at the top of the list would be deleted or added.
+
 
 # Contributors
 
