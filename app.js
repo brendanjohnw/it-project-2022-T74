@@ -35,8 +35,7 @@ app.use(cookieParser());
 // Serve static content
 // Database stuff
 app.use(bodyParser.urlencoded({ extended: false }));
-const connectionURL =
-    "mongodb+srv://brendanino:SVMd3nZJGKyfPJ4M@atlascluster.sbftbx6.mongodb.net/?retryWrites=true&w=majority";
+const connectionURL = "CONNECTION STING";
 mongoose.connect(connectionURL, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
