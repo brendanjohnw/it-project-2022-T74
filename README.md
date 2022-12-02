@@ -115,3 +115,11 @@ Max Shapiro - 999426
 Brendan Lee - 1166409  
 Chenlei Liu - 918611  
 Jiaquan Wen - 1067703  
+
+# Fun
+
+Thanks everyone, y'all are literally the best group of mates I've worked with in my entire degree. Hope we cross paths someday. If you're in the city, hit me up for a coffee or a cold one ;)
+
+Cheers mates
+
+- Brendan 
